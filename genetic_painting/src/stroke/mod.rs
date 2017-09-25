@@ -79,7 +79,6 @@ impl Painting {
         let _ = self.render_strokes().save(&Path::new("fittest.png"));
     }
 
-    // TODO: make it match based on how close the color is instead of being absolute
     pub fn fitness(&self) -> i32 {
         let mut fitness = 0f64;
         // The image we are trying to approximate.
@@ -106,7 +105,6 @@ impl Painting {
 }
 
 impl Phenotype<i32> for Painting  {
-    // Will have to render a photo here for the fitness of the overall photo.
     fn fitness(&self) -> i32 {
         return self.fitness();
     }

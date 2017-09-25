@@ -1,0 +1,10 @@
+[package]
+name = "genetic_painting"
+version = "0.1.0"
+authors = ["Alex <ahansen2@trinity.edu>"]
+
+[dependencies]
+rsgenetic = "1.7.2"
+palette = "0.2"
+image = "0.15.0"
+rand = "0.3"

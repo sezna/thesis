@@ -1,0 +1,7 @@
+look into better line drawing - Bresenham line draw
+start with only colors sampled from image -- DONE
+line width
+curvature
+half red half green test - reds to one side greens ot the other
+be able to change the colors to be more fit - DONe
+see what is causing termination - iterations? selector?

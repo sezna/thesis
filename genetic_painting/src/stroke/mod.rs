@@ -12,63 +12,80 @@ pub struct Stroke {
     start: Point2D,
     end: Point2D,
     color: image::Rgb<u8>,
+    width: u32,
 }
 
 #[derive(Clone)]
 pub struct Painting {
     strokes: Vec<Stroke>,
+    width: u32,
+    height: u32,
+    filename: String,
 }
 
 impl Painting {
-    // Generates a random Painting with width, height, and size number of strokes.
-    pub fn random(width: u32, height: u32, size: i32) -> Painting {
-        let mut strokes: Vec<Stroke> = Vec::new();
+    // Generates a Painting where the strokes are always the color of the pixel
+    // that they start or
+    // end in. Size is the number of strokes.
+    pub fn informed_random(filename: &str, size: i32) -> Painting {
+        let image = load_image(filename);
+        let num_of_pixels = image.height() * image.width();
+        let pixels_per_stroke = num_of_pixels / size as u32;
         let mut rng = thread_rng();
-        for _ in 0..size {
-            let start = Point2D {
-                x: (rng.gen::<u32>() % width),
-                y: (rng.gen::<u32>() % height),
-            };
-            let end = Point2D {
-                x: (rng.gen::<u32>() % width),
-                y: (rng.gen::<u32>() % height),
-            };
-            let color = image::Rgb::<u8> {
-                // data: [(rng.gen::<u8>() % 255), (rng.gen::<u8>() % 255), (rng.gen::<u8>() %
-                // 255)],
-                data: [rng.gen::<u8>() % 255, rng.gen::<u8>() % 255, rng.gen::<u8>() % 255],
-            };
-            strokes.push(Stroke {
-                start: start,
-                end: end,
-                color: color,
-            });
+        let mut count = 0;
+        let mut strokes: Vec<Stroke> = Vec::new();
+        for _ in 0..num_of_pixels {
+            count += 1;
+            if count == pixels_per_stroke {
+                let start = Point2D {
+                    x: (rng.gen::<u32>() % image.width()),
+                    y: (rng.gen::<u32>() % image.height()),
+                };
+                let end = Point2D {
+                    x: (rng.gen::<u32>() % image.width()),
+                    y: (rng.gen::<u32>() % image.height()),
+                };
+
+                let rgb = image.get_pixel(start.x, start.y);
+                count = 0;
+                strokes.push(Stroke {
+                    start: start,
+                    end: end,
+                    color: rgb.clone(),
+                    width: rng.gen::<u32>() % 5 + 1, /* TODO how do I determine what I want width to
+                                                  * be? */
+                });
+            }
         }
 
-        return Painting { strokes: strokes };
+        return Painting {
+            strokes: strokes,
+            width: image.width(),
+            height: image.height(),
+            filename: filename.to_string(),
+        };
+
     }
 
-
     fn render_strokes(&self) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
-
-        let goal = image::open(&Path::new("Red.png")).unwrap().to_rgb();
-        let (width, height) = goal.dimensions();
-
         // render strokes.
         let mut rendered_strokes_buffer = image::ImageBuffer::<image::Rgb<u8>,
-                                                               Vec<u8>>::new(width, height);
+                                                               Vec<u8>>::new(self.width,
+                                                                             self.height);
         for stroke in self.strokes.iter() {
             let slope: f64 = (stroke.end.y as f64 - stroke.start.y as f64) /
                              (stroke.end.x as f64 - stroke.start.x as f64);
 
             let mut index = 0i64;
-            for x in stroke.start.x..stroke.end.x {
-                let y = stroke.start.y + (index as f64 * slope) as u32;
-                rendered_strokes_buffer.put_pixel(x, y, stroke.color);
-                if index > 12000000 {
-                    println!("index: {}", index);
+        //    println!("stroke width: {}", stroke.width);
+            for i in 0..stroke.width {
+                for x in stroke.start.x + i..stroke.end.x + i {
+                    let y = stroke.start.y + i + (index as f64 * slope) as u32;
+                    if  x < self.width && y < self.height {
+                        rendered_strokes_buffer.put_pixel(x, y, stroke.color);
+                    }
+                    index += 1;
                 }
-                index += 1;
             }
         }
         return rendered_strokes_buffer;
@@ -79,12 +96,12 @@ impl Painting {
         let _ = self.render_strokes().save(&Path::new("fittest.png"));
     }
 
+
+    // TODO put filename in the painting somehow
     pub fn fitness(&self) -> i32 {
         let mut fitness = 0f64;
         // The image we are trying to approximate.
-        let goal: image::ImageBuffer<image::Rgb<u8>, Vec<u8>> = image::open(&Path::new("Red.png"))
-                                                                    .unwrap()
-                                                                    .to_rgb();
+        let goal = load_image(&self.filename);
         let rendered_strokes_buffer = self.render_strokes();
         for x in 0..goal.width() {
             for y in 0..goal.height() {
@@ -116,12 +133,43 @@ impl Phenotype<i32> for Painting  {
         let (half_of_self, _) = s.strokes.split_at(self.strokes.len() / 2);
         let (_, half_of_other) = o.strokes.split_at(self.strokes.len() / 2);
 
-        return Painting { strokes: [half_of_self, half_of_other].concat() };
+        return Painting {
+            strokes: [half_of_self, half_of_other].concat(),
+            width: self.width,
+            height: self.height,
+            filename: s.filename,
+        };
         // TODO: intelligent crossover, pick the most fit strokes.
     }
 
     // randomly change some strokes. perhaps mutation should be dramatic.
     fn mutate(&self) -> Painting {
-        return self.clone();
+        let mut rng = thread_rng();
+        let mut s = self.clone();
+        let start = Point2D {
+            x: (rng.gen::<u32>() % self.width),
+            y: (rng.gen::<u32>() % self.height),
+        };
+        let end = Point2D {
+            x: (rng.gen::<u32>() % self.width),
+            y: (rng.gen::<u32>() % self.height),
+        };
+
+        let image = load_image(&self.filename);
+        let rgb = image.get_pixel(start.x, start.y);
+        println!("mutation added: {} {} {}", rgb.data[0], rgb.data[1], rgb.data[2]);
+        s.strokes.push(Stroke {
+            start: start,
+            end: end,
+            color: rgb.clone(),
+            width: rng.gen::<u32>() % 5 + 1,
+        });
+        return s;
     }
+}
+
+fn load_image(filename: &str) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
+    return image::open(&Path::new(filename))
+               .expect("invalid filename when loading image")
+               .to_rgb();
 }

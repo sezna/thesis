@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Alex <ahansen2@trinity.edu>"]
 
 [dependencies]
-rsgenetic = { path = "/Users/alex/Documents/Coding/Rust/my_forks/RsGenetic" }
+rsgenetic = { git = "http://github.com/sezna/RsGenetic" }
 palette = "0.2"
 image = "0.16.0"
 imageproc = "0.11.0"

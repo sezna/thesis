@@ -1,10 +1,11 @@
 extern crate palette;
+extern crate imageproc;
 extern crate rsgenetic;
 extern crate image;
 extern crate rand;
 mod stroke;
 use stroke::Painting;
-use rsgenetic::sim::seq::Simulator;
+use rsgenetic::sim::parallel::Simulator;
 use rsgenetic::sim::*;
 use rsgenetic::sim::select::*;
 

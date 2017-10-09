@@ -6,6 +6,7 @@ use std::path::Path;
 use image;
 use rand::Rng;
 use rand::thread_rng;
+use imageproc::drawing::*;
 
 #[derive(Clone)]
 pub struct Stroke {
@@ -73,6 +74,12 @@ impl Painting {
                                                                Vec<u8>>::new(self.width,
                                                                              self.height);
         for stroke in self.strokes.iter() {
+//          draw_line_segment::<image::ImageBuffer<image::Rgb<u8>,
+//           Vec<u8>>>(rendered_strokes_buffer, stroke.start, stroke.end, stroke.color);
+
+
+            draw_line_segment_mut(&mut rendered_strokes_buffer, (stroke.start.x as f32, stroke.start.y as f32), (stroke.end.x as f32, stroke.end.y as f32), stroke.color);
+            /*
             let slope: f64 = (stroke.end.y as f64 - stroke.start.y as f64) /
                              (stroke.end.x as f64 - stroke.start.x as f64);
 
@@ -86,7 +93,8 @@ impl Painting {
                     }
                     index += 1;
                 }
-            }
+            } 
+            */
         }
         return rendered_strokes_buffer;
     }

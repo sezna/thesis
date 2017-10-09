@@ -5,7 +5,7 @@ extern crate image;
 extern crate rand;
 mod stroke;
 use stroke::Painting;
-use rsgenetic::sim::parallel::Simulator;
+use rsgenetic::sim::par::Simulator;
 use rsgenetic::sim::*;
 use rsgenetic::sim::select::*;
 

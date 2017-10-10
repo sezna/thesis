@@ -103,6 +103,11 @@ impl Painting {
         println!("saving image...");
         let _ = self.render_strokes().save(&Path::new("fittest.png"));
     }
+	
+    pub fn render_painting(&self, path: &str) {
+        println!("saving image...");
+        let _ = self.render_strokes().save(&Path::new(path));
+    }
 
 
     // TODO put filename in the painting somehow

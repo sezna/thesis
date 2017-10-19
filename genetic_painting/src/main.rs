@@ -10,7 +10,7 @@ use rsgenetic::sim::*;
 use rsgenetic::sim::select::*;
 
 fn main() {
-    let mut population:Vec<Painting> = (0..5000).map(|_| Painting::informed_random("image.png", 10000)).collect();
+    let mut population:Vec<Painting> = (0..500).map(|_| Painting::informed_random("image.png", 2000)).collect();
     population[0].render_painting("sample.png");
     population[1].render_painting("sample2.png");
     let mut s = Simulator::builder(&mut population)

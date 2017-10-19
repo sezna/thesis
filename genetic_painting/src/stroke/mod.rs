@@ -38,14 +38,20 @@ impl Painting {
         for _ in 0..num_of_pixels {
             count += 1;
             if count == pixels_per_stroke {
-                let start = Point2D {
-                    x: (rng.gen::<u32>() % image.width()),
-                    y: (rng.gen::<u32>() % image.height()),
-                };
-                let end = Point2D {
-                    x: (rng.gen::<u32>() % image.width()),
-                    y: (rng.gen::<u32>() % image.height()),
-                };
+		let mut stroke_length = (image.height() + image.width()) as f64;
+		let mut start = Point2D::default();
+ 		let mut end = Point2D::default();
+		while stroke_length > image.height() as f64 / 2.0 && stroke_length > image.width() as f64 / 2.0 {
+			start = Point2D {
+			    x: (rng.gen::<u32>() % image.width()),
+			    y: (rng.gen::<u32>() % image.height()),
+			};
+			end = Point2D {
+			    x: (rng.gen::<u32>() % image.width()),
+			    y: (rng.gen::<u32>() % image.height()),
+			};
+			stroke_length = f64::sqrt(((end.x - start.x) * (end.x - start.x) + (end.y - start.y) * (end.y - start.y)) as f64); 
+		}
 
                 let rgb = image.get_pixel(start.x, start.y);
                 count = 0;

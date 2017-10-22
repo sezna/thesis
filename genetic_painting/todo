@@ -14,3 +14,5 @@ parallelize selector maybe, especially maximize
 optimal stroke min and max length
 command line args
 reducing any non deterministic problem to a fitness problem
+
+how much can using a genetic algorithm improve just good selection in the first place? what is the optimal value? 

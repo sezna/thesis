@@ -9,3 +9,8 @@ start with only colors sampled from image -- DONE
 be able to change the colors to be more fit - DONE
 half red half green test - reds to one side greens ot the other
 look into making lines shorter or having a max length
+
+parallelize selector maybe, especially maximize
+optimal stroke min and max length
+command line args
+reducing any non deterministic problem to a fitness problem

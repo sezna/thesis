@@ -47,9 +47,8 @@ fn main() {
                    .arg(Arg::with_name("verbose")
                             .short("v")
                             .long("verbose")
-                            .value_name("VERBOSITY")
                             .help("Sets the verbosity level from 0 to 2")
-                            .takes_value(true))
+                            .multiple(true))
                    .arg(Arg::with_name("random")
                             .short("r")
                             .long("random")
@@ -68,27 +67,38 @@ fn main() {
 
     // Optional args.
     let iterations: u64 = args.value_of("iterations").unwrap_or("100").parse().unwrap();
-    let verbosity: u32 = args.value_of("verbose").unwrap_or("0").parse().unwrap();
+    let verbosity: u32 = args.occurrences_of("v") as u32;
     let random_generation: bool = match args.occurrences_of("r") {
         0 => false,
         _ => true,
     };
     let width: u32 = args.value_of("width").unwrap_or("5").parse().unwrap();
 
-    println!("{}", match verbosity {
-        0 => "",
-        1 => "TODO print args here", // TODO
-        _ => "TODO print args here"
-    });
+    println!("{}",
+             match verbosity {
+                 0 => String::new(),
+                 _ => format!("Parameters: \n size: {} \nnumber of strokes: {}\n image_file: {}\n
+                   iterations: {}\n random generation is {}\n stroke width: {} ", size,
+                   number_of_strokes, image_file, iterations, random_generation, width),
+             });
 
     let mut population: Vec<Painting> = (0..size)
-                                            .map(|_| { if random_generation {
-                                                Painting::random(image_file, number_of_strokes, width) }
-                                                else {
-                                                Painting::informed_random(image_file,
-                                                                          number_of_strokes, width) }
+                                            .map(|_| {
+                                                if random_generation {
+                                                    Painting::random(image_file,
+                                                                     number_of_strokes,
+                                                                     width)
+                                                } else {
+                                                    Painting::informed_random(image_file,
+                                                                              number_of_strokes,
+                                                                              width)
+                                                }
                                             })
                                             .collect();
+    if verbosity == 2 {
+        println!("{} paintings added", population.len());
+        println!("Now saving two sample images from the original population");
+    }
     population[0].render_painting("sample.png");
     population[1].render_painting("sample2.png");
     let mut s = Simulator::builder(&mut population)

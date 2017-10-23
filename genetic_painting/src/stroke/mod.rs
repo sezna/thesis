@@ -52,9 +52,11 @@ impl Painting {
                         y: (rng.gen::<u32>() % image.height()),
                     };
                     stroke_length =
-                        f64::sqrt(((end.x as f64 - start.x as f64) * (end.x as f64 - start.x as f64) +
+                        f64::sqrt(((end.x as f64 - start.x as f64) *
+                                   (end.x as f64 - start.x as f64) +
                                    (end.y as f64 - start.y as f64) *
-                                   (end.y as f64 - start.y as f64)) as f64);
+                                   (end.y as f64 -
+                                    start.y as f64)) as f64);
                 } // TODO really fix those "as f64" things
 
                 let rgb = image.get_pixel(start.x, start.y);
@@ -63,7 +65,8 @@ impl Painting {
                     start: start,
                     end: end,
                     color: rgb.clone(),
-                    width: rng.gen::<u32>() % width + 1, /* TODO how do I determine what I want width to be? */
+                    width: rng.gen::<u32>() % width + 1, /* TODO how do I determine what I want
+                                                          * width to be? */
                 });
             }
         }
@@ -78,7 +81,7 @@ impl Painting {
     }
 
     pub fn random(filename: &str, number_of_strokes: u32, width: u32) -> Painting {
-        
+
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
         let pixels_per_stroke = num_of_pixels / number_of_strokes;
@@ -107,13 +110,15 @@ impl Painting {
                                    (end.y - start.y)) as f64);
                 }
 
-                let rgb = image.get_pixel(rng.gen::<u32>() % image.width(), rng.gen::<u32>() % image.height()); // or should this be truly random?
+                let rgb = image.get_pixel(rng.gen::<u32>() % image.width(),
+                                          rng.gen::<u32>() % image.height()); // or should this be truly random?
                 count = 0;
                 strokes.push(Stroke {
                     start: start,
                     end: end,
                     color: rgb.clone(),
-                    width: rng.gen::<u32>() % width + 1, /* TODO how do I determine what I want width to be? */
+                    width: rng.gen::<u32>() % width + 1, /* TODO how do I determine what I want
+                                                          * width to be? */
                 });
             }
         }

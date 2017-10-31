@@ -242,10 +242,10 @@ impl Phenotype<i32> for Painting  {
 
         let image = load_image(&self.filename);
         let rgb = image.get_pixel(start.x, start.y);
-        println!("mutation added: {} {} {}",
-                 rgb.data[0],
-                 rgb.data[1],
-                 rgb.data[2]);
+//        println!("mutation added: {} {} {}",
+//                 rgb.data[0],
+//                 rgb.data[1],
+//                 rgb.data[2]);
         s.strokes.push(Stroke {
             start: start,
             end: end,

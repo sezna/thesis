@@ -48,7 +48,7 @@ fn main() {
                             .short("v")
                             .long("verbose")
                             .help("Sets the verbosity level from 0 to 2")
-                            .multiple(true))
+			    .takes_value(true))
                    .arg(Arg::with_name("random")
                             .short("r")
                             .long("random")
@@ -67,12 +67,10 @@ fn main() {
 
     // Optional args.
     let iterations: u64 = args.value_of("iterations").unwrap_or("100").parse().unwrap();
-    let verbosity: u32 = args.occurrences_of("v") as u32;
-    let random_generation: bool = match args.occurrences_of("r") {
-        0 => false,
-        _ => true,
-    };
-    let width: u32 = args.value_of("width").unwrap_or("5").parse().unwrap();
+    let verbosity: u32 = args.value_of("verbose").unwrap_or("0").parse().unwrap();
+    println!("verbosity set to {}", verbosity);
+    let random_generation: bool = args.is_present("random");
+    let width: u32 = args.value_of("strokewidth").unwrap_or("5").parse().unwrap();
 
     println!("{}",
              match verbosity {

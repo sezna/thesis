@@ -15,4 +15,13 @@ optimal stroke min and max length
 command line args
 reducing any non deterministic problem to a fitness problem
 
+
+show fitness as it increases with animation
+maximum fiteness and median fitness as it moves
+
 how much can using a genetic algorithm improve just good selection in the first place? what is the optimal value? 
+FLAGS
+min width
+selectors
+swap "size" and "numstrokes" for n and s
+output file name, number of samples to save

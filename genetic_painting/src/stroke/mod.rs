@@ -30,6 +30,7 @@ impl Painting {
     // that they start or
     // end in. Size is the number of strokes.
     pub fn informed_random(filename: &str, number_of_strokes: u32, width: u32) -> Painting {
+        println!("generating");
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
         let pixels_per_stroke = num_of_pixels / number_of_strokes;
@@ -151,9 +152,9 @@ impl Painting {
         return rendered_strokes_buffer;
     }
 
-    pub fn render_and_save_image(&self) {
+    pub fn render_and_save_image(&self, filename: String) {
         println!("saving image...");
-        let _ = self.render_strokes().save(&Path::new("fittest.png"));
+        let _ = self.render_strokes().save(&Path::new(&filename));
     }
 
     pub fn render_painting(&self, path: &str) {
@@ -193,6 +194,7 @@ impl Phenotype<i32> for Painting  {
 
     // The "mating" function
     fn crossover(&self, other: &Painting) -> Painting {
+        println!("mating");
         let s = self.clone();
         let o = other.clone();
         let (half_of_self, _) = s.strokes.split_at(self.strokes.len() / 2);
@@ -226,6 +228,7 @@ impl Phenotype<i32> for Painting  {
 
     // randomly change some strokes. perhaps mutation should be dramatic.
     fn mutate(&self) -> Painting {
+        println!("mutating");
         let mut rng = thread_rng();
         let mut s = self.clone();
         let pre = self.fitness();

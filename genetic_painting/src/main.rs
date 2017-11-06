@@ -125,5 +125,6 @@ fn main() {
     };
     simulator.run();
     println!("the most fit member is: {}", simulator.get().unwrap().fitness());
-    simulator.get().unwrap().render_and_save_image();
+    simulator.get().unwrap().render_and_save_image(format!("{}_i{}_s{}.png", selector,
+                                                           iterations, number_of_strokes));
 }

@@ -8,4 +8,4 @@
 #PBS -m ae
 
 ##Place Linux commands to run on the remote node here
-~/thesis/genetic_painting/target/release/genetic_painting --file image.jpg --iterations 1000 --population 1000 --selector parmaximize --strokes 500 --strokewidth 20 -v 1
+~/thesis/genetic_painting/target/release/genetic_painting --file 'image.jpg' --iterations 10 --population 1000 --selector maximize --strokes 500 --strokewidth 20 -v 1

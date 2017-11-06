@@ -25,3 +25,5 @@ min width
 selectors
 swap "size" and "numstrokes" for n and s
 output file name, number of samples to save
+
+implement stroke length min and max as well

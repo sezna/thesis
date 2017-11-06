@@ -3,6 +3,7 @@ use self::point_2d::Point2D;
 // use palette::Rgb;
 use rsgenetic::pheno::*;
 use std::path::Path;
+use std::thread;
 use image;
 use rand::Rng;
 use rand::thread_rng;
@@ -211,7 +212,15 @@ impl Phenotype<i32> for Painting  {
             filename: s.filename,
         };
 
-        if p1.fitness() > p2.fitness() { return p1; } else { return p2; }
+
+        // TODO remove these clones
+
+        let p1c = p1.clone();
+        let p2c = p2.clone();
+
+        let p1fitness = thread::spawn(move || { p1c.fitness() });
+        let p2fitness = thread::spawn(move || { p2c.fitness() });
+        if p1fitness.join().expect("thread failed") > p2fitness.join().expect("thread failed") { return p1; } else { return p2; }
         // TODO: intelligent crossover, pick the most fit strokes.
     }
 
@@ -219,6 +228,7 @@ impl Phenotype<i32> for Painting  {
     fn mutate(&self) -> Painting {
         let mut rng = thread_rng();
         let mut s = self.clone();
+        let pre = self.fitness();
         let start = Point2D {
             x: (rng.gen::<u32>() % self.width),
             y: (rng.gen::<u32>() % self.height),
@@ -228,19 +238,19 @@ impl Phenotype<i32> for Painting  {
             y: (rng.gen::<u32>() % self.height),
         };
 
+
         let image = load_image(&self.filename);
         let rgb = image.get_pixel(start.x, start.y);
-        //        println!("mutation added: {} {} {}",
-        //                 rgb.data[0],
-        //                 rgb.data[1],
-        //                 rgb.data[2]);
         s.strokes.push(Stroke {
             start: start,
             end: end,
             color: rgb.clone(),
             width: rng.gen::<u32>() % 5 + 1,
         });
-        return s;
+
+
+        let post = s.fitness();
+        if post > pre { return s; } else { return self.clone(); }
     }
 }
 

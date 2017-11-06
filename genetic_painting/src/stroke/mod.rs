@@ -139,11 +139,6 @@ impl Painting {
                                                                Vec<u8>>::new(self.width,
                                                                              self.height);
         for stroke in self.strokes.iter() {
-            //          draw_line_segment::<image::ImageBuffer<image::Rgb<u8>,
-            // Vec<u8>>>(rendered_strokes_buffer, stroke.start, stroke.end,
-            // stroke.color);
-
-
             for i in 0..stroke.width {
                 draw_line_segment_mut(&mut rendered_strokes_buffer,
                                       (stroke.start.x as f32 + i as f32,
@@ -151,22 +146,6 @@ impl Painting {
                                       (stroke.end.x as f32 + i as f32, stroke.end.y as f32),
                                       stroke.color);
             }
-            //
-            // let slope: f64 = (stroke.end.y as f64 - stroke.start.y as f64) /
-            // (stroke.end.x as f64 - stroke.start.x as f64);
-            //
-            // let mut index = 0i64;
-            //    println!("stroke width: {}", stroke.width);
-            // for i in 0..stroke.width {
-            // for x in stroke.start.x + i..stroke.end.x + i {
-            // let y = stroke.start.y + i + (index as f64 * slope) as u32;
-            // if  x < self.width && y < self.height {
-            // rendered_strokes_buffer.put_pixel(x, y, stroke.color);
-            // }
-            // index += 1;
-            // }
-            // }
-            //
         }
         return rendered_strokes_buffer;
     }
@@ -218,12 +197,21 @@ impl Phenotype<i32> for Painting  {
         let (half_of_self, _) = s.strokes.split_at(self.strokes.len() / 2);
         let (_, half_of_other) = o.strokes.split_at(self.strokes.len() / 2);
 
-        return Painting {
+        let p1 = Painting {
             strokes: [half_of_self, half_of_other].concat(),
+            width: self.width,
+            height: self.height,
+            filename: s.filename.clone(),
+        };
+
+        let p2 = Painting {
+            strokes: [half_of_other, half_of_self].concat(),
             width: self.width,
             height: self.height,
             filename: s.filename,
         };
+
+        if p1.fitness() > p2.fitness() { return p1; } else { return p2; }
         // TODO: intelligent crossover, pick the most fit strokes.
     }
 

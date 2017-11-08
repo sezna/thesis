@@ -94,7 +94,7 @@ fn main() {
                               width),
              });
 
-    let mut population: Vec<Painting> = (0..population)
+    let mut population_paintings: Vec<Painting> = (0..population)
                                             .map(|_| {
                                                 if random_generation {
                                                     Painting::random(image_file,
@@ -108,12 +108,13 @@ fn main() {
                                             })
                                             .collect();
     if verbosity == 2 {
-        println!("{} paintings added", population.len());
+        println!("{} paintings added", population_paintings.len());
         println!("Now saving two sample images from the original population");
     }
-    population[0].render_painting("sample.png");
-    population[1].render_painting("sample2.png");
-    let s = Simulator::builder(&mut population)
+    population_paintings[0].render_painting("sample.png");
+    population_paintings[1].render_painting("sample2.png");
+    let s = Simulator::builder(&mut population_paintings)
+
                     .set_max_iters(iterations);
     // TODO figure out proper parameters and how tournament works
     let mut simulator = match selector {
@@ -125,6 +126,6 @@ fn main() {
     };
     simulator.run();
     println!("the most fit member is: {}", simulator.get().unwrap().fitness());
-    simulator.get().unwrap().render_and_save_image(format!("{}_i{}_s{}.png", selector,
-                                                           iterations, number_of_strokes));
+    simulator.get().unwrap().render_and_save_image(format!("{}_i{}_s{}_p{}_r{}.png", selector,
+                                                           iterations, number_of_strokes, population, random_generation));
 }

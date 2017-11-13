@@ -29,7 +29,7 @@ impl Painting {
     // Generates a Painting where the strokes are always the color of the pixel
     // that they start or
     // end in. Size is the number of strokes.
-    pub fn informed_random(filename: &str, number_of_strokes: u32, width: u32) -> Painting {
+    pub fn informed_random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32) -> Painting {
         println!("generating");
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
@@ -43,8 +43,7 @@ impl Painting {
                 let mut stroke_length = (image.height() + image.width()) as f64;
                 let mut start = Point2D::default();
                 let mut end = Point2D::default();
-                while stroke_length > image.height() as f64 / 2.0 &&
-                      stroke_length > image.width() as f64 / 2.0 {
+                while stroke_length <= minlength as f64 || stroke_length >= maxlength as f64{
                     start = Point2D {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
@@ -82,7 +81,7 @@ impl Painting {
 
     }
 
-    pub fn random(filename: &str, number_of_strokes: u32, width: u32) -> Painting {
+    pub fn random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32) -> Painting {
 
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
@@ -96,8 +95,8 @@ impl Painting {
                 let mut stroke_length = (image.height() + image.width()) as f64;
                 let mut start = Point2D::default();
                 let mut end = Point2D::default();
-                while stroke_length > image.height() as f64 / 2.0 &&
-                      stroke_length > image.width() as f64 / 2.0 {
+                while stroke_length < minlength as f64 ||
+                      stroke_length > maxlength as f64 {
                     start = Point2D {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
@@ -145,7 +144,7 @@ impl Painting {
                 draw_line_segment_mut(&mut rendered_strokes_buffer,
                                       (stroke.start.x as f32 + i as f32,
                                        stroke.start.y as f32 + i as f32),
-                                      (stroke.end.x as f32 + i as f32, stroke.end.y as f32),
+                                      (stroke.end.x as f32 + i as f32, stroke.end.y + i as f32),
                                       stroke.color);
             }
         }

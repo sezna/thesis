@@ -27,3 +27,9 @@ swap "size" and "numstrokes" for n and s
 output file name, number of samples to save
 
 implement stroke length min and max as well
+
+
+mutation - change mutation and rate
+litter selection
+graph stuff
+start location/angle and then length is along some non-uniform distribution

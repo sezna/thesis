@@ -144,7 +144,7 @@ impl Painting {
                 draw_line_segment_mut(&mut rendered_strokes_buffer,
                                       (stroke.start.x as f32 + i as f32,
                                        stroke.start.y as f32 + i as f32),
-                                      (stroke.end.x as f32 + i as f32, stroke.end.y + i as f32),
+                                      (stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
                                       stroke.color);
             }
         }
@@ -231,26 +231,19 @@ impl Phenotype<i32> for Painting  {
         let mut rng = thread_rng();
         let mut s = self.clone();
         let pre = self.fitness();
-        let start = Point2D {
-            x: (rng.gen::<u32>() % self.width),
-            y: (rng.gen::<u32>() % self.height),
-        };
-        let end = Point2D {
-            x: (rng.gen::<u32>() % self.width),
-            y: (rng.gen::<u32>() % self.height),
-        };
+	let to_modify_index = rng.gen::<usize>();
+	let mut to_modify = self.strokes[to_modify_index].clone();
+	// Decide which part of the stroke we will modify.
+	match rng.gen::<i32>() % 3 {
+		0 => {to_modify.start.x = (to_modify.start.x + rng.gen::<u32>() % 5) % self.width; to_modify.start.y = (to_modify.start.y + rng.gen::<u32>() % 5) % self.height;},
+		1 => {to_modify.end.x = (to_modify.end.x + rng.gen::<u32>() % 5) % self.width; to_modify.end.y = (to_modify.end.y + rng.gen::<u32>() % 5) % self.height;},
+		2 => {to_modify.width = to_modify.width + rng.gen::<u32>() % 5;},
+		_ => (),
 
+	}
 
-        let image = load_image(&self.filename);
-        let rgb = image.get_pixel(start.x, start.y);
-        s.strokes.push(Stroke {
-            start: start,
-            end: end,
-            color: rgb.clone(),
-            width: rng.gen::<u32>() % 5 + 1,
-        });
-
-
+	s.strokes.remove(to_modify_index);
+	s.strokes.push(to_modify);
         let post = s.fitness();
         if post > pre { return s; } else { return self.clone(); }
     }

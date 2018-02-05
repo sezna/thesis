@@ -130,6 +130,7 @@ fn main() {
         "parmaximize" => { s.set_selector(Box::new(ParMaximizeSelector::new(10))).build() }
         _             => { println!("invalid selector provided, defaulting to stochastic"); s.set_selector(Box::new(StochasticSelector::new(10))).build() }
     };
+
     simulator.run();
     println!("the most fit member is: {}", simulator.get().unwrap().fitness());
     simulator.get().unwrap().render_and_save_image(format!("{}_i{}_s{}_p{}_r{}_mM{}-{}.png", selector,

@@ -13,6 +13,7 @@ use imageproc::drawing::*;
 pub struct Stroke {
     start: Point2D,
     end: Point2D,
+    controls: (Point2D, Point2D),
     color: image::Rgb<u8>,
     width: u32,
 }
@@ -43,12 +44,22 @@ impl Painting {
                 let mut stroke_length = (image.height() + image.width()) as f64;
                 let mut start = Point2D::default();
                 let mut end = Point2D::default();
+		let mut control_a = Point2D::default();
+		let mut control_b = Point2D::default();
                 while stroke_length <= minlength as f64 || stroke_length >= maxlength as f64{
                     start = Point2D {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
                     };
                     end = Point2D {
+                        x: (rng.gen::<u32>() % image.width()),
+                        y: (rng.gen::<u32>() % image.height()),
+                    };
+                    control_a = Point2D {
+                        x: (rng.gen::<u32>() % image.width()),
+                        y: (rng.gen::<u32>() % image.height()),
+                    };
+                    control_b = Point2D {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
                     };
@@ -61,10 +72,13 @@ impl Painting {
                 } // TODO really fix those "as f64" things
 
                 let rgb = image.get_pixel(start.x, start.y);
+		
                 count = 0;
+		
                 strokes.push(Stroke {
                     start: start,
                     end: end,
+		    controls: (control_a, control_b),
                     color: rgb.clone(),
                     width: rng.gen::<u32>() % width + 1, /* TODO how do I determine what I want
                                                           * width to be? */
@@ -95,6 +109,8 @@ impl Painting {
                 let mut stroke_length = (image.height() + image.width()) as f64;
                 let mut start = Point2D::default();
                 let mut end = Point2D::default();
+		let mut control_a = Point2D::default();
+		let mut control_b = Point2D::default();
                 while stroke_length < minlength as f64 ||
                       stroke_length > maxlength as f64 {
                     start = Point2D {
@@ -102,6 +118,14 @@ impl Painting {
                         y: (rng.gen::<u32>() % image.height()),
                     };
                     end = Point2D {
+                        x: (rng.gen::<u32>() % image.width()),
+                        y: (rng.gen::<u32>() % image.height()),
+                    };
+                    control_a = Point2D {
+                        x: (rng.gen::<u32>() % image.width()),
+                        y: (rng.gen::<u32>() % image.height()),
+                    };
+                    control_b = Point2D {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
                     };
@@ -117,6 +141,7 @@ impl Painting {
                 strokes.push(Stroke {
                     start: start,
                     end: end,
+		    controls: (control_a, control_b),
                     color: rgb.clone(),
                     width: rng.gen::<u32>() % width + 1, /* TODO how do I determine what I want
                                                           * width to be? */
@@ -146,6 +171,11 @@ impl Painting {
                                        stroke.start.y as f32 + i as f32),
                                       (stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
                                       stroke.color);
+		draw_cubic_bezier_curve_mut(&mut rendered_strokes_buffer,
+					(stroke.start.x as f32 + i as f32,
+					stroke.start.y as f32 + i as f32),
+					(stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
+					stroke.controls.0.as_tuple(), stroke.controls.1.as_tuple(), stroke.color);
             }
         }
         return rendered_strokes_buffer;

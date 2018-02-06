@@ -101,6 +101,7 @@ fn main() {
                               width),
              });
 
+	println!("generating paintings");
     let mut population_paintings: Vec<Painting> = (0..population)
                                             .map(|_| {
                                                 if random_generation {
@@ -119,7 +120,7 @@ fn main() {
         println!("{} paintings added", population_paintings.len());
         println!("Now saving two sample images from the original population");
     }
-
+    println!("saving two samples");
     population_paintings[0].render_painting("sample.png");
     population_paintings[1].render_painting("sample2.png");
     let s = Simulator::builder(&mut population_paintings)
@@ -127,6 +128,7 @@ fn main() {
                     .set_max_iters(iterations);
 
     // TODO figure out proper parameters and how tournament works
+    println!("making simulator");
     let mut simulator = match selector {
         "stochastic"  => { s.set_selector(Box::new(StochasticSelector::new(10))).build() },
         "maximize"    => { s.set_selector(Box::new(MaximizeSelector::new(10))).build() },
@@ -134,6 +136,8 @@ fn main() {
         "parmaximize" => { s.set_selector(Box::new(ParMaximizeSelector::new(10))).build() }
         _             => { println!("invalid selector provided, defaulting to stochastic"); s.set_selector(Box::new(StochasticSelector::new(10))).build() }
     };
+
+    println!("running simulator");
 
     simulator.run();
     println!("the most fit member is: {}", simulator.get().unwrap().fitness());

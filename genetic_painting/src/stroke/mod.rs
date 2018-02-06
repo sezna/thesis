@@ -193,6 +193,13 @@ impl Painting {
 					(stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
 					stroke.controls.0.as_tuple(), stroke.controls.1.as_tuple(), stroke.color);
             }
+/*
+	draw_cubic_bezier_curve_mut(&mut rendered_strokes_buffer,
+				(stroke.start.x as f32  as f32,
+				stroke.start.y as f32  as f32),
+				(stroke.end.x as f32  as f32, stroke.end.y as f32  as f32),
+				stroke.controls.0.as_tuple(), stroke.controls.1.as_tuple(), stroke.color);
+*/
         }
         return rendered_strokes_buffer;
     }
@@ -210,8 +217,8 @@ impl Painting {
     }
 
 
-    // TODO put filename in the painting somehow
     pub fn fitness(&self) -> i32 {
+	println!("in stroke fitness");
         let mut fitness = 0f64;
         // The image we are trying to approximate.
         let goal = load_image(&self.filename);
@@ -239,6 +246,7 @@ impl Phenotype<i32> for Painting  {
 
     /// Calculates the fitness from an integer. Conveniently, fitness is an integer.
     fn fitness(&self) -> i32 {
+	println!("in phenotype fitness");
         return self.fitness();
     }
 
@@ -283,6 +291,7 @@ impl Phenotype<i32> for Painting  {
         let mut s = self.clone();
         let pre = self.fitness();
 	let to_modify_index = rng.gen::<usize>();
+	println!("strokes len: {}, to_modify_index: {}", self.strokes.len(), to_modify_index);
 	let mut to_modify = self.strokes[to_modify_index].clone();
 
 	// Decide which part of the stroke we will modify.

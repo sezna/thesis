@@ -9,6 +9,7 @@ use rand::Rng;
 use rand::thread_rng;
 use imageproc::drawing::*;
 
+/// Represents one stroke in a painting.
 #[derive(Clone)]
 pub struct Stroke {
     start: Point2D,
@@ -18,6 +19,7 @@ pub struct Stroke {
     width: u32,
 }
 
+/// Represents a collection of strokes forming a painting.
 #[derive(Clone)]
 pub struct Painting {
     strokes: Vec<Stroke>,
@@ -27,9 +29,9 @@ pub struct Painting {
 }
 
 impl Painting {
-    // Generates a Painting where the strokes are always the color of the pixel
-    // that they start or
-    // end in. Size is the number of strokes.
+    /// Generates a Painting where the strokes are always the color of the pixel
+    /// that they start or end in. Size is the number of strokes. Min/Max length
+    /// are the minimum and maximum lengths any stroke can be.
     pub fn informed_random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32) -> Painting {
         println!("generating");
         let image = load_image(filename);
@@ -95,6 +97,8 @@ impl Painting {
 
     }
 
+    /// Randomly generates a lot of strokes within the boundaries of of the size of the input image.
+    /// Width is the width of each stroke, min/max length control how short or long each line can be.
     pub fn random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32) -> Painting {
 
         let image = load_image(filename);
@@ -103,14 +107,20 @@ impl Painting {
         let mut rng = thread_rng();
         let mut count = 0;
         let mut strokes: Vec<Stroke> = Vec::new();
+
+        // To achieve an evenly distributed spread of strokes, we iterate through all pixels and 
+        // generate one every `pixels_per_stroke` pixels.
         for _ in 0..num_of_pixels {
             count += 1;
             if count == pixels_per_stroke {
                 let mut stroke_length = (image.height() + image.width()) as f64;
                 let mut start = Point2D::default();
                 let mut end = Point2D::default();
-		let mut control_a = Point2D::default();
-		let mut control_b = Point2D::default();
+                // Control points are for the cubic bezier draw.
+        		let mut control_a = Point2D::default();
+        		let mut control_b = Point2D::default();
+
+                // Hacky, but continue trying until a stroke has been picked that is within the length bounds. This is in parallel anyway.
                 while stroke_length < minlength as f64 ||
                       stroke_length > maxlength as f64 {
                     start = Point2D {
@@ -129,6 +139,7 @@ impl Painting {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
                     };
+
                     stroke_length =
                         f64::sqrt(((end.x - start.x) * (end.x - start.x) +
                                    (end.y - start.y) *
@@ -138,6 +149,8 @@ impl Painting {
                 let rgb = image.get_pixel(rng.gen::<u32>() % image.width(),
                                           rng.gen::<u32>() % image.height()); // or should this be truly random?
                 count = 0;
+
+                // Finally, push the generated stroke onto the vector of strokes.
                 strokes.push(Stroke {
                     start: start,
                     end: end,
@@ -158,12 +171,13 @@ impl Painting {
         };
     }
 
-
+    /// Render the currect strokes into an Imagebuffer.
     fn render_strokes(&self) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
-        // render strokes.
         let mut rendered_strokes_buffer = image::ImageBuffer::<image::Rgb<u8>,
                                                                Vec<u8>>::new(self.width,
                                                                              self.height);
+
+        // draw the line with width taken into account.
         for stroke in self.strokes.iter() {
             for i in 0..stroke.width {
                 draw_line_segment_mut(&mut rendered_strokes_buffer,
@@ -171,6 +185,8 @@ impl Painting {
                                        stroke.start.y as f32 + i as f32),
                                       (stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
                                       stroke.color);
+
+        // for testing right now, draw a curve after drawing the line.
 		draw_cubic_bezier_curve_mut(&mut rendered_strokes_buffer,
 					(stroke.start.x as f32 + i as f32,
 					stroke.start.y as f32 + i as f32),
@@ -181,11 +197,13 @@ impl Painting {
         return rendered_strokes_buffer;
     }
 
+    /// Save a painting to an image.
     pub fn render_and_save_image(&self, filename: String) {
         println!("saving image...");
-        let _ = self.render_strokes().save(&Path::new(&filename));
+        let _ = self.render_strokes().save(Path::new(&filename));
     }
 
+    /// Save a painting to a custom filepath.
     pub fn render_painting(&self, path: &str) {
         println!("saving image...");
         let _ = self.render_strokes().save(&Path::new(path));
@@ -216,12 +234,15 @@ impl Painting {
 
 }
 
+/// Used for the RsGenetic crate. 
 impl Phenotype<i32> for Painting  {
+
+    /// Calculates the fitness from an integer. Conveniently, fitness is an integer.
     fn fitness(&self) -> i32 {
         return self.fitness();
     }
 
-    // The "mating" function
+    /// The "mating" function for the genetic algorithm.
     fn crossover(&self, other: &Painting) -> Painting {
         println!("mating");
         let s = self.clone();
@@ -263,6 +284,7 @@ impl Phenotype<i32> for Painting  {
         let pre = self.fitness();
 	let to_modify_index = rng.gen::<usize>();
 	let mut to_modify = self.strokes[to_modify_index].clone();
+
 	// Decide which part of the stroke we will modify.
 	match rng.gen::<i32>() % 3 {
 		0 => {to_modify.start.x = (to_modify.start.x + rng.gen::<u32>() % 5) % self.width; to_modify.start.y = (to_modify.start.y + rng.gen::<u32>() % 5) % self.height;},
@@ -274,11 +296,12 @@ impl Phenotype<i32> for Painting  {
 
 	s.strokes.remove(to_modify_index);
 	s.strokes.push(to_modify);
-        let post = s.fitness();
-        if post > pre { return s; } else { return self.clone(); }
+    let post = s.fitness();
+    if post > pre { return s; } else { return self.clone(); }
     }
 }
 
+/// Load an image from the given file name. 
 fn load_image(filename: &str) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
     return image::open(&Path::new(filename))
                .expect("invalid filename when loading image")

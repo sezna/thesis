@@ -11,6 +11,7 @@ use rsgenetic::sim::*;
 use rsgenetic::sim::select::*;
 use clap::{Arg, App};
 
+
 fn main() {
     let args = App::new("Genetic Painter")
                    .version("1.0")
@@ -114,14 +115,17 @@ fn main() {
                                             })
                                             .collect();
     if verbosity == 2 {
+      // verbose debug prints
         println!("{} paintings added", population_paintings.len());
         println!("Now saving two sample images from the original population");
     }
+
     population_paintings[0].render_painting("sample.png");
     population_paintings[1].render_painting("sample2.png");
     let s = Simulator::builder(&mut population_paintings)
 
                     .set_max_iters(iterations);
+
     // TODO figure out proper parameters and how tournament works
     let mut simulator = match selector {
         "stochastic"  => { s.set_selector(Box::new(StochasticSelector::new(10))).build() },
@@ -133,6 +137,10 @@ fn main() {
 
     simulator.run();
     println!("the most fit member is: {}", simulator.get().unwrap().fitness());
-    simulator.get().unwrap().render_and_save_image(format!("{}_i{}_s{}_p{}_r{}_mM{}-{}.png", selector,
-                                                           iterations, number_of_strokes, population, random_generation, minlength, maxlength));
+    let most_fit = simulator.get().unwrap();
+
+    // Save the output image.
+    let filename = format!("{}_i{}_s{}_p{}_r{}_mM{}-{}.png", selector,
+                                                           iterations, number_of_strokes, population, random_generation, minlength, maxlength);
+    most_fit.render_and_save_image(filename);
 }

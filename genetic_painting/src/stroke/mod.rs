@@ -176,16 +176,16 @@ impl Painting {
         let mut rendered_strokes_buffer = image::ImageBuffer::<image::Rgb<u8>,
                                                                Vec<u8>>::new(self.width,
                                                                              self.height);
-
         // draw the line with width taken into account.
         for stroke in self.strokes.iter() {
             for i in 0..stroke.width {
+/*
                 draw_line_segment_mut(&mut rendered_strokes_buffer,
                                       (stroke.start.x as f32 + i as f32,
                                        stroke.start.y as f32 + i as f32),
                                       (stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
                                       stroke.color);
-
+*/
         // for testing right now, draw a curve after drawing the line.
 		draw_cubic_bezier_curve_mut(&mut rendered_strokes_buffer,
 					(stroke.start.x as f32 + i as f32,
@@ -193,13 +193,6 @@ impl Painting {
 					(stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
 					stroke.controls.0.as_tuple(), stroke.controls.1.as_tuple(), stroke.color);
             }
-/*
-	draw_cubic_bezier_curve_mut(&mut rendered_strokes_buffer,
-				(stroke.start.x as f32  as f32,
-				stroke.start.y as f32  as f32),
-				(stroke.end.x as f32  as f32, stroke.end.y as f32  as f32),
-				stroke.controls.0.as_tuple(), stroke.controls.1.as_tuple(), stroke.color);
-*/
         }
         return rendered_strokes_buffer;
     }
@@ -290,7 +283,7 @@ impl Phenotype<i32> for Painting  {
         let mut rng = thread_rng();
         let mut s = self.clone();
         let pre = self.fitness();
-	let to_modify_index = rng.gen::<usize>();
+	let to_modify_index = rng.gen::<usize>() % self.strokes.len();
 	println!("strokes len: {}, to_modify_index: {}", self.strokes.len(), to_modify_index);
 	let mut to_modify = self.strokes[to_modify_index].clone();
 

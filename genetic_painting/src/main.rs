@@ -66,6 +66,7 @@ fn main() {
                             .long("strokewidth")
                             .help("Sets the maximum width of strokes.").value_name("WIDTH")
                             .takes_value(true))
+                   .arg(Arg::with_name("maxcurve").short("mc").long("maxcurve").help("Sets the maximum curve value of a stroke").value_name("PIXELS").takes_value(true))
 	           .arg(Arg::with_name("minstrokelength")
 		 	    .short("m").long("minstrokelength").help("Sets the minimum length of a stroke").takes_value(true).value_name("LENGTH"))
 		   .arg(Arg::with_name("maxstrokelength")
@@ -85,6 +86,7 @@ fn main() {
     let selector = args.value_of("selector").unwrap_or("stochastic");
     let minlength: u32 = args.value_of("minstrokelength").unwrap_or("5").parse().unwrap();
     let maxlength: u32 = args.value_of("maxstrokelength").unwrap_or("150").parse().unwrap();
+    let maxcurve: u32 = args.value_of("maxcurve").unwrap_or("5").parse().unwrap();
 
     println!("{}",
              match verbosity {
@@ -107,7 +109,7 @@ fn main() {
                                                 if random_generation {
                                                     Painting::random(image_file,
                                                                      number_of_strokes,
-                                                                     width, minlength, maxlength)
+                                                                     width, minlength, maxlength, maxcurve)
                                                 } else {
                                                     Painting::informed_random(image_file,
                                                                               number_of_strokes,

@@ -46,8 +46,8 @@ impl Painting {
                 let mut stroke_length = (image.height() + image.width()) as f64;
                 let mut start = Point2D::default();
                 let mut end = Point2D::default();
-		let mut control_a = Point2D::default();
-		let mut control_b = Point2D::default();
+                let mut control_a = Point2D::default();
+                let mut control_b = Point2D::default();
                 while stroke_length <= minlength as f64 || stroke_length >= maxlength as f64{
                     start = Point2D {
                         x: (rng.gen::<u32>() % image.width()),
@@ -99,8 +99,7 @@ impl Painting {
 
     /// Randomly generates a lot of strokes within the boundaries of of the size of the input image.
     /// Width is the width of each stroke, min/max length control how short or long each line can be.
-    pub fn random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32) -> Painting {
-
+    pub fn random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32, maxcurve: u32) -> Painting {
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
         let pixels_per_stroke = num_of_pixels / number_of_strokes;
@@ -131,13 +130,14 @@ impl Painting {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
                     };
+
+                    let slope = Point2D { x: if end.y < start.y { start.y - end.y } else { end.y - start.y }, y: if end.x < start.x { start.x - end.x } else { end.x - start.x } };
                     control_a = Point2D {
-                        x: (rng.gen::<u32>() % image.width()),
-                        y: (rng.gen::<u32>() % image.height()),
-                    };
+                        x: start.x + slope.x + maxcurve,
+                        y: start.y + slope.y + maxcurve};
                     control_b = Point2D {
-                        x: (rng.gen::<u32>() % image.width()),
-                        y: (rng.gen::<u32>() % image.height()),
+                        x: start.x + slope.x + maxcurve,
+                        y: start.y + slope.y + maxcurve};
                     };
 
                     stroke_length =

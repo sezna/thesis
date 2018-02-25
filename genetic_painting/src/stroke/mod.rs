@@ -33,7 +33,6 @@ impl Painting {
     /// that they start or end in. Size is the number of strokes. Min/Max length
     /// are the minimum and maximum lengths any stroke can be.
     pub fn informed_random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32) -> Painting {
-        println!("generating");
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
         let pixels_per_stroke = num_of_pixels / number_of_strokes;
@@ -134,17 +133,19 @@ impl Painting {
                     let slope = Point2D { x: if end.y < start.y { start.y - end.y } else { end.y - start.y }, y: if end.x < start.x { start.x - end.x } else { end.x - start.x } };
                     control_a = Point2D {
                         x: start.x + slope.x + maxcurve,
-                        y: start.y + slope.y + maxcurve};
+                        y: start.y + slope.y + maxcurve
+                    };
                     control_b = Point2D {
                         x: start.x + slope.x + maxcurve,
-                        y: start.y + slope.y + maxcurve};
+                        y: start.y + slope.y + maxcurve
                     };
 
                     stroke_length =
                         f64::sqrt(((end.x - start.x) * (end.x - start.x) +
                                    (end.y - start.y) *
                                    (end.y - start.y)) as f64);
-                }
+                
+                      }
 
                 let rgb = image.get_pixel(rng.gen::<u32>() % image.width(),
                                           rng.gen::<u32>() % image.height()); // or should this be truly random?

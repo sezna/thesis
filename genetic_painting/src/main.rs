@@ -66,7 +66,7 @@ fn main() {
                             .long("strokewidth")
                             .help("Sets the maximum width of strokes.").value_name("WIDTH")
                             .takes_value(true))
-                   .arg(Arg::with_name("maxcurve").short("mc").long("maxcurve").help("Sets the maximum curve value of a stroke").value_name("PIXELS").takes_value(true))
+                   .arg(Arg::with_name("maxcurve").short("c").long("maxcurve").help("Sets the maximum curve value of a stroke").value_name("PIXELS").takes_value(true))
 	           .arg(Arg::with_name("minstrokelength")
 		 	    .short("m").long("minstrokelength").help("Sets the minimum length of a stroke").takes_value(true).value_name("LENGTH"))
 		   .arg(Arg::with_name("maxstrokelength")

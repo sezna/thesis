@@ -212,7 +212,6 @@ impl Painting {
 
 
     pub fn fitness(&self) -> i32 {
-	println!("in stroke fitness");
         let mut fitness = 0f64;
         // The image we are trying to approximate.
         let goal = load_image(&self.filename);
@@ -240,13 +239,11 @@ impl Phenotype<i32> for Painting  {
 
     /// Calculates the fitness from an integer. Conveniently, fitness is an integer.
     fn fitness(&self) -> i32 {
-	println!("in phenotype fitness");
         return self.fitness();
     }
 
     /// The "mating" function for the genetic algorithm.
     fn crossover(&self, other: &Painting) -> Painting {
-        println!("mating");
         let s = self.clone();
         let o = other.clone();
         let (half_of_self, _) = s.strokes.split_at(self.strokes.len() / 2);
@@ -280,12 +277,10 @@ impl Phenotype<i32> for Painting  {
 
     // randomly change some strokes. perhaps mutation should be dramatic.
     fn mutate(&self) -> Painting {
-        println!("mutating");
         let mut rng = thread_rng();
         let mut s = self.clone();
         let pre = self.fitness();
 	let to_modify_index = rng.gen::<usize>() % self.strokes.len();
-	println!("strokes len: {}, to_modify_index: {}", self.strokes.len(), to_modify_index);
 	let mut to_modify = self.strokes[to_modify_index].clone();
 
 	// Decide which part of the stroke we will modify.

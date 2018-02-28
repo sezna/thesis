@@ -98,7 +98,7 @@ impl Painting {
 
     /// Randomly generates a lot of strokes within the boundaries of of the size of the input image.
     /// Width is the width of each stroke, min/max length control how short or long each line can be.
-    pub fn random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32, maxcurve: u32) -> Painting {
+    pub fn random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32, _maxcurve: u32) -> Painting {
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
         let pixels_per_stroke = num_of_pixels / number_of_strokes;
@@ -130,15 +130,8 @@ impl Painting {
                         y: (rng.gen::<u32>() % image.height()),
                     };
 
-                    let slope = Point2D { x: if end.y < start.y { start.y - end.y } else { end.y - start.y }, y: if end.x < start.x { start.x - end.x } else { end.x - start.x } };
-                    control_a = Point2D {
-                        x: start.x + slope.x + maxcurve,
-                        y: start.y + slope.y + maxcurve
-                    };
-                    control_b = Point2D {
-                        x: start.x + slope.x + maxcurve,
-                        y: start.y + slope.y + maxcurve
-                    };
+                    control_a = start.get_control(&end);
+		    control_b = start.get_control(&end);
 
                     stroke_length =
                         f64::sqrt(((end.x - start.x) * (end.x - start.x) +
@@ -172,6 +165,7 @@ impl Painting {
         };
     }
 
+
     /// Render the currect strokes into an Imagebuffer.
     fn render_strokes(&self) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
         let mut rendered_strokes_buffer = image::ImageBuffer::<image::Rgb<u8>,
@@ -180,19 +174,18 @@ impl Painting {
         // draw the line with width taken into account.
         for stroke in self.strokes.iter() {
             for i in 0..stroke.width {
-/*
                 draw_line_segment_mut(&mut rendered_strokes_buffer,
                                       (stroke.start.x as f32 + i as f32,
                                        stroke.start.y as f32 + i as f32),
                                       (stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
                                       stroke.color);
-*/
-        // for testing right now, draw a curve after drawing the line.
+				      /*
 		draw_cubic_bezier_curve_mut(&mut rendered_strokes_buffer,
 					(stroke.start.x as f32 + i as f32,
 					stroke.start.y as f32 + i as f32),
 					(stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
 					stroke.controls.0.as_tuple(), stroke.controls.1.as_tuple(), stroke.color);
+				*/ // Enable this when the get control function is working	
             }
         }
         return rendered_strokes_buffer;

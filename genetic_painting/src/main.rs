@@ -92,15 +92,18 @@ fn main() {
              match verbosity {
                  0 => String::new(),
                  _ => format!("Parameters: \n population: {} \nnumber of strokes: {}\n \
-                               image_file: {}\n
-                   iterations: {}\n random \
-                               generation is {}\n stroke width: {} ",
+                               image_file: {}\n iterations: {}\n random \
+                               generation is {}\n stroke width: {} \n\
+			       min stroke length: {} max stroke length: {}\n \
+			       max curve: {} ",
                               population,
                               number_of_strokes,
                               image_file,
                               iterations,
                               random_generation,
-                              width),
+                              width,
+			      minlength, maxlength, maxcurve),
+
              });
 
 	println!("generating paintings");

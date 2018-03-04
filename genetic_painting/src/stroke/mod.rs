@@ -33,7 +33,13 @@ impl Painting {
     /// Generates a Painting where the strokes are always the color of the pixel
     /// that they start or end in. Size is the number of strokes. Min/Max length
     /// are the minimum and maximum lengths any stroke can be.
-    pub fn informed_random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32) -> Painting {
+    pub fn informed_random(
+        filename: &str,
+        number_of_strokes: u32,
+        width: u32,
+        minlength: u32,
+        maxlength: u32,
+    ) -> Painting {
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
         let pixels_per_stroke = num_of_pixels / number_of_strokes;
@@ -48,7 +54,7 @@ impl Painting {
                 let mut end = Point2D::default();
                 let mut control_a = Point2D::default();
                 let mut control_b = Point2D::default();
-                while stroke_length <= minlength as f64 || stroke_length >= maxlength as f64{
+                while stroke_length <= minlength as f64 || stroke_length >= maxlength as f64 {
                     start = Point2D {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
@@ -65,22 +71,21 @@ impl Painting {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
                     };
-                    stroke_length =
-                        f64::sqrt(((end.x as f64 - start.x as f64) *
-                                   (end.x as f64 - start.x as f64) +
-                                   (end.y as f64 - start.y as f64) *
-                                   (end.y as f64 -
-                                    start.y as f64)) as f64);
+                    stroke_length = f64::sqrt(
+                        ((end.x as f64 - start.x as f64) * (end.x as f64 - start.x as f64) +
+                             (end.y as f64 - start.y as f64) * (end.y as f64 - start.y as f64)) as
+                            f64,
+                    );
                 } // TODO really fix those "as f64" things
 
                 let rgb = image.get_pixel(start.x, start.y);
-		
+
                 count = 0;
-		
+
                 strokes.push(Stroke {
                     start: start,
                     end: end,
-		    controls: (control_a, control_b),
+                    controls: (control_a, control_b),
                     color: rgb.clone(),
                     width: rng.gen::<u32>() % width + 1, /* TODO how do I determine what I want
                                                           * width to be? */
@@ -97,9 +102,16 @@ impl Painting {
 
     }
 
-    /// Randomly generates a lot of strokes within the boundaries of of the size of the input image.
-    /// Width is the width of each stroke, min/max length control how short or long each line can be.
-    pub fn random(filename: &str, number_of_strokes: u32, width: u32, minlength: u32, maxlength: u32, _maxcurve: u32) -> Painting {
+    /// Randomly generates a lot of strokes within the boundaries of the size of the input image.
+    /// Width is the width of each stroke, min/max length are how short or long each line can be.
+    pub fn random(
+        filename: &str,
+        number_of_strokes: u32,
+        width: u32,
+        minlength: u32,
+        maxlength: u32,
+        _maxcurve: u32,
+    ) -> Painting {
         let image = load_image(filename);
         let num_of_pixels = image.height() * image.width();
         let pixels_per_stroke = num_of_pixels / number_of_strokes;
@@ -107,7 +119,7 @@ impl Painting {
         let mut count = 0;
         let mut strokes: Vec<Stroke> = Vec::new();
 
-        // To achieve an evenly distributed spread of strokes, we iterate through all pixels and 
+        // To achieve an evenly distributed spread of strokes, we iterate through all pixels and
         // generate one every `pixels_per_stroke` pixels.
         for _ in 0..num_of_pixels {
             count += 1;
@@ -116,12 +128,12 @@ impl Painting {
                 let mut start = Point2D::default();
                 let mut end = Point2D::default();
                 // Control points are for the cubic bezier draw.
-        		let mut control_a = Point2D::default();
-        		let mut control_b = Point2D::default();
+                let mut control_a = Point2D::default();
+                let mut control_b = Point2D::default();
 
-                // Hacky, but continue trying until a stroke has been picked that is within the length bounds. This is in parallel anyway.
-                while stroke_length < minlength as f64 ||
-                      stroke_length > maxlength as f64 {
+                // Hacky, but continue trying until a stroke has been picked that is within the
+                // length bounds. This is in parallel anyway.
+                while stroke_length < minlength as f64 || stroke_length > maxlength as f64 {
                     start = Point2D {
                         x: (rng.gen::<u32>() % image.width()),
                         y: (rng.gen::<u32>() % image.height()),
@@ -132,24 +144,27 @@ impl Painting {
                     };
 
                     control_a = start.get_control(&end);
-		    control_b = start.get_control(&end);
+                    control_b = start.get_control(&end);
 
-                    stroke_length =
-                        f64::sqrt(((end.x - start.x) * (end.x - start.x) +
-                                   (end.y - start.y) *
-                                   (end.y - start.y)) as f64);
-                
-                      }
+                    stroke_length = f64::sqrt(
+                        ((end.x - start.x) * (end.x - start.x) +
+                             (end.y - start.y) * (end.y - start.y)) as
+                            f64,
+                    );
 
-                let rgb = image.get_pixel(rng.gen::<u32>() % image.width(),
-                                          rng.gen::<u32>() % image.height()); // or should this be truly random?
+                }
+
+                let rgb = image.get_pixel(
+                    rng.gen::<u32>() % image.width(),
+                    rng.gen::<u32>() % image.height(),
+                ); // or should this be truly random?
                 count = 0;
 
                 // Finally, push the generated stroke onto the vector of strokes.
                 strokes.push(Stroke {
                     start: start,
                     end: end,
-		    controls: (control_a, control_b),
+                    controls: (control_a, control_b),
                     color: rgb.clone(),
                     width: rng.gen::<u32>() % width + 1, /* TODO how do I determine what I want
                                                           * width to be? */
@@ -165,28 +180,30 @@ impl Painting {
             filename: filename.to_string(),
         };
     }
-    
+
 
     /// Render the currect strokes into an Imagebuffer.
     fn render_strokes(&self) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
-        let mut rendered_strokes_buffer = image::ImageBuffer::<image::Rgb<u8>,
-                                                               Vec<u8>>::new(self.width,
-                                                                             self.height);
+        let mut rendered_strokes_buffer =
+            image::ImageBuffer::<image::Rgb<u8>, Vec<u8>>::new(self.width, self.height);
         // draw the line with width taken into account.
         for stroke in self.strokes.iter() {
             for i in 0..stroke.width {
-                draw_antialiased_line_segment_mut(&mut rendered_strokes_buffer,
-                                      ((stroke.start.x + i) as i32, 
-                                       (stroke.start.y + i) as i32),
-                                      ((stroke.end.x + i) as i32, (stroke.end.y + i) as i32),
-                                      stroke.color, interpolate);
-				      /*
+                draw_antialiased_line_segment_mut(
+                    &mut rendered_strokes_buffer,
+                    ((stroke.start.x + i) as i32, (stroke.start.y + i) as i32),
+                    ((stroke.end.x + i) as i32, (stroke.end.y + i) as i32),
+                    stroke.color,
+                    interpolate,
+                );
+                /*
 		draw_cubic_bezier_curve_mut(&mut rendered_strokes_buffer,
 					(stroke.start.x as f32 + i as f32,
 					stroke.start.y as f32 + i as f32),
 					(stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
 					stroke.controls.0.as_tuple(), stroke.controls.1.as_tuple(), stroke.color);
-				*/ // Enable this when the get control function is working	
+				*/
+                // Enable this when the get control function is working
             }
         }
         return rendered_strokes_buffer;
@@ -212,11 +229,11 @@ impl Painting {
         let rendered_strokes_buffer = self.render_strokes();
         for x in 0..goal.width() {
             for y in 0..goal.height() {
-                let grgb = goal.get_pixel(x, y).data;//.iter().collect();//.map(|x| x as i32);
+                let grgb = goal.get_pixel(x, y).data; //.iter().collect();//.map(|x| x as i32);
                 let rrgb = rendered_strokes_buffer.get_pixel(x, y);
                 let unfitness = (grgb[0] as i32 - rrgb[0] as i32).abs() +
-                                (grgb[1] as i32 - rrgb[1] as i32).abs() +
-                                (grgb[2] as i32 - rrgb[2] as i32).abs();
+                    (grgb[1] as i32 - rrgb[1] as i32).abs() +
+                    (grgb[2] as i32 - rrgb[2] as i32).abs();
                 fitness += 765.0 - unfitness as f64;
 
             }
@@ -225,12 +242,10 @@ impl Painting {
         // println!("evaluated fitness as {}", fitness);
         return fitness as i32;
     }
-
 }
 
-/// Used for the RsGenetic crate. 
-impl Phenotype<i32> for Painting  {
-
+/// Used for the RsGenetic crate.
+impl Phenotype<i32> for Painting {
     /// Calculates the fitness from an integer. Conveniently, fitness is an integer.
     fn fitness(&self) -> i32 {
         return self.fitness();
@@ -263,9 +278,13 @@ impl Phenotype<i32> for Painting  {
         let p1c = p1.clone();
         let p2c = p2.clone();
 
-        let p1fitness = thread::spawn(move || { p1c.fitness() });
-        let p2fitness = thread::spawn(move || { p2c.fitness() });
-        if p1fitness.join().expect("thread failed") > p2fitness.join().expect("thread failed") { return p1; } else { return p2; }
+        let p1fitness = thread::spawn(move || p1c.fitness());
+        let p2fitness = thread::spawn(move || p2c.fitness());
+        if p1fitness.join().expect("thread failed") > p2fitness.join().expect("thread failed") {
+            return p1;
+        } else {
+            return p2;
+        }
         // TODO: intelligent crossover, pick the most fit strokes.
     }
 
@@ -274,28 +293,40 @@ impl Phenotype<i32> for Painting  {
         let mut rng = thread_rng();
         let mut s = self.clone();
         let pre = self.fitness();
-	let to_modify_index = rng.gen::<usize>() % self.strokes.len();
-	let mut to_modify = self.strokes[to_modify_index].clone();
+        let to_modify_index = rng.gen::<usize>() % self.strokes.len();
+        let mut to_modify = self.strokes[to_modify_index].clone();
 
-	// Decide which part of the stroke we will modify.
-	match rng.gen::<i32>() % 3 {
-		0 => {to_modify.start.x = (to_modify.start.x + rng.gen::<u32>() % 5) % self.width; to_modify.start.y = (to_modify.start.y + rng.gen::<u32>() % 5) % self.height;},
-		1 => {to_modify.end.x = (to_modify.end.x + rng.gen::<u32>() % 5) % self.width; to_modify.end.y = (to_modify.end.y + rng.gen::<u32>() % 5) % self.height;},
-		2 => {to_modify.width = to_modify.width + rng.gen::<u32>() % 5;},
-		_ => (),
+        // Decide which part of the stroke we will modify.
+        match rng.gen::<i32>() % 3 {
+            0 => {
+                to_modify.start.x = (to_modify.start.x + rng.gen::<u32>() % 5) % self.width;
+                to_modify.start.y = (to_modify.start.y + rng.gen::<u32>() % 5) % self.height;
+            }
+            1 => {
+                to_modify.end.x = (to_modify.end.x + rng.gen::<u32>() % 5) % self.width;
+                to_modify.end.y = (to_modify.end.y + rng.gen::<u32>() % 5) % self.height;
+            }
+            2 => {
+                to_modify.width = to_modify.width + rng.gen::<u32>() % 5;
+            }
+            _ => (),
 
-	}
+        }
 
-	s.strokes.remove(to_modify_index);
-	s.strokes.push(to_modify);
-    let post = s.fitness();
-    if post > pre { return s; } else { return self.clone(); }
+        s.strokes.remove(to_modify_index);
+        s.strokes.push(to_modify);
+        let post = s.fitness();
+        if post > pre {
+            return s;
+        } else {
+            return self.clone();
+        }
     }
 }
 
-/// Load an image from the given file name. 
+/// Load an image from the given file name.
 fn load_image(filename: &str) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
     return image::open(&Path::new(filename))
-               .expect("invalid filename when loading image")
-               .to_rgb();
+        .expect("invalid filename when loading image")
+        .to_rgb();
 }

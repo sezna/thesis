@@ -2,6 +2,7 @@ pub mod point_2d;
 use self::point_2d::Point2D;
 // use palette::Rgb;
 use rsgenetic::pheno::*;
+use imageproc::pixelops::interpolate;
 use std::path::Path;
 use std::thread;
 use image;
@@ -164,7 +165,7 @@ impl Painting {
             filename: filename.to_string(),
         };
     }
-
+    
 
     /// Render the currect strokes into an Imagebuffer.
     fn render_strokes(&self) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
@@ -174,11 +175,11 @@ impl Painting {
         // draw the line with width taken into account.
         for stroke in self.strokes.iter() {
             for i in 0..stroke.width {
-                draw_line_segment_mut(&mut rendered_strokes_buffer,
-                                      (stroke.start.x as f32 + i as f32,
-                                       stroke.start.y as f32 + i as f32),
-                                      (stroke.end.x as f32 + i as f32, stroke.end.y as f32 + i as f32),
-                                      stroke.color);
+                draw_antialiased_line_segment_mut(&mut rendered_strokes_buffer,
+                                      ((stroke.start.x + i) as i32, 
+                                       (stroke.start.y + i) as i32),
+                                      ((stroke.end.x + i) as i32, (stroke.end.y + i) as i32),
+                                      stroke.color, interpolate);
 				      /*
 		draw_cubic_bezier_curve_mut(&mut rendered_strokes_buffer,
 					(stroke.start.x as f32 + i as f32,

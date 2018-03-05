@@ -208,7 +208,7 @@ fn main() {
                 .build()
         }
         "parmaximize" => {
-            s.set_selector(Box::new(ParMaximizeSelector::new(10)))
+            s.set_selector(Box::new(ParMaximizeSelector::new(((population / 3) + population % 2) as usize)))
                 .build()
         }
         _ => {

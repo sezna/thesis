@@ -1,0 +1,27 @@
+verbosity set to 1
+Parameters: 
+ population: 30 
+number of strokes: 500
+ image_file: image.jpg
+
+                   iterations: 10
+ random generation is true
+ stroke width: 20 
+generating paintings
+saving two samples
+saving image...
+saving image...
+making simulator
+running simulator
+271440533
+271442035
+271442035
+271889602
+271889602
+271889602
+271889602
+271889602
+271889602
+271889602
+the most fit member is: 271889602
+saving image...

@@ -1,0 +1,11 @@
+verbosity set to 1
+Parameters: 
+ population: 5000 
+number of strokes: 50
+ image_file: image.jpg
+ iterations: 10
+ random generation is true
+ stroke width: 20 
+min stroke length: 5 max stroke length: 30
+ max curve: 5 
+generating paintings

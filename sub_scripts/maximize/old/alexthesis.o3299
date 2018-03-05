@@ -1,0 +1,1513 @@
+verbosity set to 1
+Parameters: 
+ population: 10000 
+number of strokes: 4000
+ image_file: image.jpg
+
+                   iterations: 100
+ random generation is true
+ stroke width: 20 
+saving image...
+saving image...
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320512061, new_child
+323529613, new_child
+325112235, new_child
+324450310, new_child
+321495843, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320492389, new_child
+323511534, new_child
+325107579, new_child
+324404034, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320469476, new_child
+323522671, new_child
+325101082, new_child
+324455933, new_child
+321504368, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320550117, new_child
+323542421, new_child
+325101082, new_child
+324435079, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320469027, new_child
+323509458, new_child
+325106972, new_child
+324404034, new_child
+321517846, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320495717, new_child
+323509458, new_child
+325101082, new_child
+324405342, new_child
+321596629, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320465957, new_child
+323523229, new_child
+325109149, new_child
+324404034, new_child
+321504668, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320498249, new_child
+323550319, new_child
+325101082, new_child
+324534694, new_child
+321506753, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323519429, new_child
+325101082, new_child
+324404034, new_child
+321522429, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320489375, new_child
+323509458, new_child
+325101082, new_child
+324449675, new_child
+321535341, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323509458, new_child
+325133548, new_child
+324442877, new_child
+321499093, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320493651, new_child
+323545119, new_child
+325142405, new_child
+324404034, new_child
+321562096, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320479060, new_child
+323517222, new_child
+325129247, new_child
+324416843, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320504226, new_child
+323577532, new_child
+325150183, new_child
+324404034, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320476700, new_child
+323510292, new_child
+325101082, new_child
+324427080, new_child
+321512979, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323509458, new_child
+325164641, new_child
+324404034, new_child
+321533465, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320473292, new_child
+323567297, new_child
+325115789, new_child
+324404034, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320530533, new_child
+323523779, new_child
+325133497, new_child
+324413408, new_child
+321566161, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320521257, new_child
+323553866, new_child
+325101082, new_child
+324409208, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320482323, new_child
+323509458, new_child
+325101082, new_child
+324548821, new_child
+321514646, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320480632, new_child
+323587413, new_child
+325124930, new_child
+324499834, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320486583, new_child
+323509458, new_child
+325105135, new_child
+324412102, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320572376, new_child
+323531576, new_child
+325101082, new_child
+324404034, new_child
+321494147, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320495558, new_child
+323509458, new_child
+325112418, new_child
+324404034, new_child
+321522207, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320515406, new_child
+323599764, new_child
+325124470, new_child
+324409810, new_child
+321533414, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323511095, new_child
+325101082, new_child
+324418986, new_child
+321567194, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320474936, new_child
+323659103, new_child
+325101082, new_child
+324404034, new_child
+321543525, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461832, new_child
+323552781, new_child
+325163425, new_child
+324404034, new_child
+321508268, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320475284, new_child
+323525819, new_child
+321773192, new_child
+323611565, new_child
+321515581, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320478840, new_child
+323509458, new_child
+321749264, new_child
+323609519, new_child
+321526815, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320466940, new_child
+323662129, new_child
+321741257, new_child
+323640481, new_child
+321548246, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320510944, new_child
+323536833, new_child
+321722659, new_child
+323609519, new_child
+321548205, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320487850, new_child
+323509458, new_child
+321726888, new_child
+323609519, new_child
+321560546, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320538010, new_child
+323567970, new_child
+321762164, new_child
+323609519, new_child
+321545471, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320524394, new_child
+323509458, new_child
+321723573, new_child
+323646175, new_child
+321563170, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320478316, new_child
+323572412, new_child
+321797445, new_child
+323621180, new_child
+321509301, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320519890, new_child
+323531358, new_child
+321735595, new_child
+323625228, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320472909, new_child
+323519176, new_child
+321719199, new_child
+323658228, new_child
+321523438, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320508858, new_child
+323564688, new_child
+321732805, new_child
+323643009, new_child
+321551576, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323527290, new_child
+321791041, new_child
+323615373, new_child
+321604579, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323520235, new_child
+321748664, new_child
+323610094, new_child
+321520604, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320565489, new_child
+323520377, new_child
+321734069, new_child
+323632343, new_child
+321506781, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323517060, new_child
+321773097, new_child
+323618521, new_child
+321524746, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320583499, new_child
+323549096, new_child
+321725476, new_child
+323626649, new_child
+321583032, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320544321, new_child
+323510429, new_child
+321738749, new_child
+323634940, new_child
+321545532, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320500220, new_child
+323570379, new_child
+321754008, new_child
+323609519, new_child
+321586103, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320540391, new_child
+323545433, new_child
+321719199, new_child
+323618662, new_child
+321524767, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320555194, new_child
+323513478, new_child
+321727494, new_child
+323629187, new_child
+321540080, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320479623, new_child
+323509458, new_child
+321727577, new_child
+323643527, new_child
+321521718, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320472955, new_child
+323577725, new_child
+321719199, new_child
+323609519, new_child
+321546614, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320485934, new_child
+323619725, new_child
+321719199, new_child
+323811458, new_child
+321549337, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320468005, new_child
+323509458, new_child
+321719199, new_child
+323650219, new_child
+321519679, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320543753, new_child
+323526600, new_child
+321784740, new_child
+323699167, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320462372, new_child
+323509458, new_child
+321832203, new_child
+323659342, new_child
+321521145, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320472813, new_child
+323509458, new_child
+321730115, new_child
+323609519, new_child
+321529947, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323513375, new_child
+321749361, new_child
+323624898, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320513360, new_child
+323531000, new_child
+321719199, new_child
+323622079, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323534959, new_child
+321727976, new_child
+323609519, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320481585, new_child
+323509458, new_child
+321719199, new_child
+323636163, new_child
+321586133, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320514328, new_child
+323554083, new_child
+321719199, new_child
+323609519, new_child
+321561643, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320533346, new_child
+323509458, new_child
+321786050, new_child
+323609519, new_child
+321572552, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320470253, new_child
+323509458, new_child
+321719199, new_child
+323642283, new_child
+321511046, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320482838, new_child
+323552052, new_child
+321729496, new_child
+323609519, new_child
+321547065, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320499230, new_child
+323524562, new_child
+321730753, new_child
+323627897, new_child
+321511385, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320480002, new_child
+323509458, new_child
+321727095, new_child
+323678507, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323509458, new_child
+321778614, new_child
+323668006, new_child
+321529162, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320466752, new_child
+323518018, new_child
+321719199, new_child
+323722837, new_child
+321519578, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320509113, new_child
+323509458, new_child
+321742888, new_child
+323663100, new_child
+321561286, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320548610, new_child
+323549560, new_child
+321739797, new_child
+323609519, new_child
+321553746, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320471150, new_child
+323540213, new_child
+321744881, new_child
+323622056, new_child
+321531829, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320546922, new_child
+323538706, new_child
+321719199, new_child
+323623850, new_child
+321518281, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323541848, new_child
+321723742, new_child
+323614038, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320486659, new_child
+323539811, new_child
+321719199, new_child
+323662338, new_child
+321513529, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320534772, new_child
+323509458, new_child
+321719199, new_child
+323623072, new_child
+321560490, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320478318, new_child
+323509458, new_child
+321719199, new_child
+323619527, new_child
+321588612, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320479236, new_child
+323531822, new_child
+321720023, new_child
+323609519, new_child
+321528039, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320479296, new_child
+323522995, new_child
+321723449, new_child
+323649784, new_child
+321565113, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320466418, new_child
+323509458, new_child
+321733292, new_child
+323643846, new_child
+321531911, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320483724, new_child
+323548527, new_child
+321719319, new_child
+323625484, new_child
+321509197, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320466188, new_child
+323509458, new_child
+321736467, new_child
+323613627, new_child
+321531638, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320498730, new_child
+323509458, new_child
+321750041, new_child
+323655231, new_child
+321514184, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320511251, new_child
+323515304, new_child
+321774870, new_child
+323663022, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323560140, new_child
+321722906, new_child
+323664360, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323509458, new_child
+321735515, new_child
+323631479, new_child
+321524081, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320479654, new_child
+323530765, new_child
+321799218, new_child
+323609519, new_child
+321662180, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320534335, new_child
+323526945, new_child
+321719199, new_child
+323680062, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320532257, new_child
+323539222, new_child
+321774847, new_child
+323687295, new_child
+321522892, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320513737, new_child
+323509458, new_child
+321719199, new_child
+323648464, new_child
+321514609, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323509458, new_child
+321732744, new_child
+323653341, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323510277, new_child
+321843272, new_child
+323675023, new_child
+321507144, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320475827, new_child
+323521725, new_child
+321744914, new_child
+323617011, new_child
+321618197, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323604614, new_child
+321719199, new_child
+323625587, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320485601, new_child
+323509458, new_child
+321746047, new_child
+323625243, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320493255, new_child
+323572162, new_child
+321783358, new_child
+323634279, new_child
+321513645, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320485121, new_child
+323539476, new_child
+321791518, new_child
+323631958, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323570161, new_child
+321735618, new_child
+323662019, new_child
+321518821, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320462976, new_child
+323594980, new_child
+321719199, new_child
+323638291, new_child
+321588987, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320461506, new_child
+323509458, new_child
+321735345, new_child
+323631272, new_child
+321506657, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320477876, new_child
+323533733, new_child
+321748994, new_child
+323657218, new_child
+321598515, new_child
+mating
+mating
+mating
+mating
+mating
+mutating
+mutating
+mutating
+mutating
+mutating
+320463899, new_child
+323540182, new_child
+321719199, new_child
+323647697, new_child
+321547133, new_child
+the most fit member is: 329069061
+saving image...

@@ -1,0 +1,8 @@
+hypothesis:
+fitness goes up. the fitness will successfully be graphed. quick stats of higher iterations vs higher strokes. Which increases the stats faster?
+higher iter: 5790
+higher stroke: 5791
+higher population: 5792
+super high iter, low stroke: 5793
+
+graph execution time, fitness increase

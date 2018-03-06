@@ -1,6 +1,0 @@
-thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: "Invalid parameter `count`: 10. Should be larger than zero, a multiple of two and less than half the population size."', libcore/result.rs:945:5
-note: Run with `RUST_BACKTRACE=1` for a backtrace.
-
-real	0m0.464s
-user	0m0.950s
-sys	0m0.184s

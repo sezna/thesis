@@ -4,7 +4,6 @@ use self::point_2d::Point2D;
 use rsgenetic::pheno::*;
 use imageproc::pixelops::interpolate;
 use std::path::Path;
-use std::thread;
 use image;
 use rand::Rng;
 use rand::thread_rng;
@@ -273,7 +272,7 @@ impl Phenotype<i32> for Painting {
         };
 
 	let mut rng = thread_rng();
-	if rng.gen::<i32> % 2 == 1 {
+	if rng.gen::<i32>() % 2 == 1 {
             return p1;
         } else {
             return p2;
@@ -284,7 +283,6 @@ impl Phenotype<i32> for Painting {
     fn mutate(&self) -> Painting {
         let mut rng = thread_rng();
         let mut s = self.clone();
-        let pre = self.fitness();
         let to_modify_index = rng.gen::<usize>() % self.strokes.len();
         let mut to_modify = self.strokes[to_modify_index].clone();
 
@@ -307,12 +305,7 @@ impl Phenotype<i32> for Painting {
 
         s.strokes.remove(to_modify_index);
         s.strokes.push(to_modify);
-        let post = s.fitness();
-        if post > pre {
-            return s;
-        } else {
-            return self.clone();
-        }
+    	return s;
     }
 }
 

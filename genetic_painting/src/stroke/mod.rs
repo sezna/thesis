@@ -272,20 +272,12 @@ impl Phenotype<i32> for Painting {
             filename: s.filename,
         };
 
-
-        // TODO remove these clones
-
-        let p1c = p1.clone();
-        let p2c = p2.clone();
-
-        let p1fitness = thread::spawn(move || p1c.fitness());
-        let p2fitness = thread::spawn(move || p2c.fitness());
-        if p1fitness.join().expect("thread failed") > p2fitness.join().expect("thread failed") {
+	let mut rng = thread_rng();
+	if rng.gen::<i32> % 2 == 1 {
             return p1;
         } else {
             return p2;
         }
-        // TODO: intelligent crossover, pick the most fit strokes.
     }
 
     // randomly change some strokes. perhaps mutation should be dramatic.

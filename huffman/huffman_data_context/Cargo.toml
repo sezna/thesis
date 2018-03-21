@@ -1,0 +1,6 @@
+[package]
+name = "huffman_data_context"
+version = "0.1.0"
+authors = ["sezna <ahansen2@trinity.edu>"]
+
+[dependencies]

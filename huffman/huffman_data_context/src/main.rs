@@ -15,7 +15,6 @@ enum Node {
 
 
 impl Node {
-
     pub fn benefit(&self) -> u64 {
         return match self {
             &Node::Interior { benefit, .. } => benefit,
@@ -93,6 +92,7 @@ impl Node {
 
     }
 
+    /// Finds a token in the encoding table and returns a binary string.
 
     pub fn decode(&self, to_decode: &str) -> String {
         let mut tree_position = self;
@@ -149,12 +149,11 @@ struct DataContext {
 }
 
 impl DataContext {
-
     pub fn encode(&self, to_encode: &str) -> String {
         let tokens: Vec<&str> = to_encode.split(" ").collect();
         let mut encoded_string = "".to_string();
         for token in tokens {
-            let pattern = self.root.traverse(token);
+            let pattern = self.lookup_token(token);
             if let Some(x) = pattern {
                 encoded_string = format!("{}{}", encoded_string, x);
             } else {
@@ -165,8 +164,36 @@ impl DataContext {
 
     }
 
+    fn lookup_token(&self, token: &str) -> Option<&str> {
+        //							return	self.encoding_table.get(token);
+        for (encoded_token, encoding) in &self.encoding_table {
+            if encoded_token == token {
+                return Some(encoding);
+            }
+        }
+        return None;
+    }
+
+    fn lookup_encoding(&self, binary_string: &str) -> Option<&str> {
+        for (token, encoding) in &self.encoding_table {
+            if encoding == binary_string {
+                return Some(token);
+            }
+        }
+        return None;
+    }
     pub fn decode(&self, to_decode: &str) -> String {
-        return self.root.decode(to_decode);
+        let mut output = "".to_string();
+        let mut currently_checking = "".to_string();
+        for x in to_decode.chars() {
+            currently_checking = format!("{}{}", currently_checking, x);
+            println!("currently checking: {}", currently_checking);
+            if let Some(result) = self.lookup_encoding(&currently_checking) {
+                output = format!("{} {}", output, result);
+                currently_checking = "".to_string();
+            }
+        }
+        return output;
 
     }
 

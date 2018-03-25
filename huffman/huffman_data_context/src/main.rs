@@ -3,6 +3,7 @@ use std::collections::HashMap;
 // TODO: handle not found tokens
 //       decode with traversal
 //       turn into a library
+// 			 split out into multiple mods
 
 /// A node for the DataContext.
 #[derive(Clone)]
@@ -90,7 +91,6 @@ impl Node {
     }
 
     /// Finds a token in the encoding table and returns a binary string.
-
     pub fn decode(&self, to_decode: &str) -> String {
         let mut tree_position = self;
         let mut to_return_string = "".to_string();

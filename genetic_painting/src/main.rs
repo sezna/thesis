@@ -204,7 +204,7 @@ fn main() {
         }
         "maximize" => s.set_selector(Box::new(MaximizeSelector::new(10))).build(),
         "tournament" => {
-            s.set_selector(Box::new(TournamentSelector::new((population / 3 + population % 2) as usize, population as usize)))
+            s.set_selector(Box::new(TournamentSelector::new((population / 3 + (population / 3 ) % 2) as usize, population as usize)))
                 .build()
         }
         "parmaximize" => {

@@ -1,6 +1,7 @@
 mod data_context;
 extern crate rayon;
 use std::io::prelude::*;
+use std::mem;
 use std::fs::File;
 use data_context::DataContext;
 
@@ -27,20 +28,36 @@ fn main() {
     //		let standard_encoded = standard_huff.encode("test test this is a test");
 
     //		println!("length of standard: {}, length with benefits: {}", standard_encoded.len(), encoded.len());
+		let char_size = std::mem::size_of::<char>();
     let decoded = data_context.decode(&encoded);
-
     println!("encoded len: {}, huff_encoded len: {}, decoded: {}", encoded.len(), huff_encoded.len(), decoded.clone());
-		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", decoded.len(), encoded.len() as f64 / decoded.len() as f64, 
-		huff_encoded.len() as f64 / decoded.len() as f64);
+		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", decoded.len(), encoded.len() as f64 / (char_size * decoded.len()) as f64, 
+		(char_size * huff_encoded.len()) as f64 / decoded.len() as f64);
 		println!("encoding the corpus...");
 		let corpus_encoded = data_context.encode(&corpus);
 		let huff_corpus_encoded = standard_huff.encode(&corpus);
 		
     println!("encoded len: {}, huff_encoded len: {}", corpus_encoded.len(), huff_corpus_encoded.len());
-		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", corpus.len(), corpus_encoded.len() as f64 / corpus.len() as f64,
-		huff_corpus_encoded.len() as f64 / corpus.len() as f64); 
+		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", corpus.len(), corpus_encoded.len() as f64 / (corpus.len() * char_size) as f64,
+		huff_corpus_encoded.len() as f64 / (char_size * corpus.len()) as f64); 
+    println!("javascript results: ");
 
+    let mut file = File::open("data/js.txt").expect("Unable to open the file");
+    let mut corpus = String::new();
+    file.read_to_string(&mut corpus).expect(
+        "Unable to read the file",
+    );
+    let data_context = DataContext::new(corpus.clone());
+    println!("Creating standard Huffman");
+    let standard_huff = DataContext::new_standard_huffman(corpus.clone());
 
+		let corpus_encoded = data_context.encode(&corpus);
+		let huff_corpus_encoded = standard_huff.encode(&corpus);
+		
+    println!("encoded len: {}, huff_encoded len: {}", corpus_encoded.len(), huff_corpus_encoded.len());
+		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", corpus.len(), corpus_encoded.len() as f64 / (corpus.len() * char_size) as f64,
+				
+		huff_corpus_encoded.len() as f64 / (char_size * corpus.len()) as f64); 
 
 
 }

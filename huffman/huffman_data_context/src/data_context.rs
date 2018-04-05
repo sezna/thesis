@@ -1,6 +1,5 @@
 use std::collections::{HashMap, BinaryHeap};
 use std::cmp::Ordering;
-use std::sync::atomic::{AtomicIsize, Ordering as AtomicOrdering};
 
 use rayon::prelude::*;
 /// A node for the DataContext.
@@ -101,12 +100,7 @@ impl Node {
 
     pub fn make_table(&self, tokens: Vec<&str>) -> HashMap<String, String> {
 				println!("in make_table");
-				let mut total_traversed = AtomicIsize::new(0);
 				let to_return:HashMap<String, String> = tokens.clone().par_iter().map(|x| {
-								let tmp = total_traversed.fetch_add(1, AtomicOrdering::SeqCst);
-								if tmp % 300 == 0 {
-												println!("total traversed: {}", tmp);
-								}
 								(x.to_string(), self.traverse(x).expect("token not found"))
 				}).collect();
         return to_return;

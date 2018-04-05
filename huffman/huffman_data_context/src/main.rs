@@ -20,14 +20,16 @@ fn main() {
     println!("Creating DataContext with Benefits");
     let data_context = DataContext::new(corpus.clone());
     println!("Creating standard Huffman");
-    //		let standard_huff = DataContext::new_standard_huffman(corpus);
+    let standard_huff = DataContext::new_standard_huffman(corpus);
     println!("Encoding");
     let encoded = data_context.encode("test test this is a test");
+		let huff_encoded = standard_huff.encode("test test this is a test");
     //		let standard_encoded = standard_huff.encode("test test this is a test");
 
     //		println!("length of standard: {}, length with benefits: {}", standard_encoded.len(), encoded.len());
     let decoded = data_context.decode(&encoded);
-    println!("encoded: {}, decoded: {}", encoded.len(), decoded.clone());
+
+    println!("encoded len: {}, huff_encoded len: {}, decoded: {}", encoded.len(), huff_encoded.len(), decoded.clone());
 }
 
 

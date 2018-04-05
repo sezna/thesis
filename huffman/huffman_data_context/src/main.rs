@@ -32,7 +32,7 @@ fn main() {
     let decoded = data_context.decode(&encoded);
     println!("encoded len: {}, huff_encoded len: {}, decoded: {}", encoded.len(), huff_encoded.len(), decoded.clone());
 		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", decoded.len(), encoded.len() as f64 / (char_size * decoded.len()) as f64, 
-		(char_size * huff_encoded.len()) as f64 / decoded.len() as f64);
+		 huff_encoded.len() as f64 / (char_size * decoded.len()) as f64);
 		println!("encoding the corpus...");
 		let corpus_encoded = data_context.encode(&corpus);
 		let huff_corpus_encoded = standard_huff.encode(&corpus);

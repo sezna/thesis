@@ -1,5 +1,6 @@
 use std::collections::{HashMap, BinaryHeap};
 use std::cmp::Ordering;
+use std::sync::atomic::{AtomicIsize, Ordering as AtomicOrdering};
 
 use rayon::prelude::*;
 /// A node for the DataContext.
@@ -18,7 +19,7 @@ enum Node {
 /// later, the heap is a min heap and not a max heap.
 impl Ord for Node {
     fn cmp(&self, other: &Node) -> Ordering {
-        let ord = self.partial_cmp(other).unwrap();
+        let ord = self.benefit().cmp(&other.benefit());
         match ord {
             Ordering::Greater => Ordering::Less,
             Ordering::Less => Ordering::Greater,
@@ -99,13 +100,15 @@ impl Node {
     }
 
     pub fn make_table(&self, tokens: Vec<&str>) -> HashMap<String, String> {
-        let mut to_return = HashMap::new();
-        for token in tokens {
-            to_return.insert(
-                token.to_string(),
-                self.traverse(token).expect("token not found"),
-            );
-        }
+				println!("in make_table");
+				let mut total_traversed = AtomicIsize::new(0);
+				let to_return:HashMap<String, String> = tokens.clone().par_iter().map(|x| {
+								let tmp = total_traversed.fetch_add(1, AtomicOrdering::SeqCst);
+								if tmp % 300 == 0 {
+												println!("total traversed: {}", tmp);
+								}
+								(x.to_string(), self.traverse(x).expect("token not found"))
+				}).collect();
         return to_return;
 
     }
@@ -232,13 +235,7 @@ impl DataContext {
 
         // Create the Huffman tree. At this point, tokens_with_benefit is sorted
         // by lowest benefit to highest benefit.
-        let mut forest: BinaryHeap<Node> = BinaryHeap::with_capacity(tokens_with_benefit.len()); 
-				println!("iterating...");
-				for token in tokens_with_benefit {
-								println!("adding: {}", token.0.to_string());
-								forest.push(Node::Leaf { data: token.0.to_string(), benefit: token.1 } );
-				}
-				/*tokens_with_benefit
+        let mut forest: BinaryHeap<Node> = tokens_with_benefit
             .iter()
             .map(|x| {
                 Node::Leaf {
@@ -247,9 +244,7 @@ impl DataContext {
                 }
             })
             .collect();
-						*/
         println!("forest created");
-
         while forest.len() > 1 {
 				    let left = forest.pop().expect("heap pop didn't work");
 						let right = forest.pop().expect("heap pop didn't work");
@@ -259,7 +254,9 @@ impl DataContext {
                 right: Box::new(right),
                 benefit: benefit,
             };
-            println!("added new entry to code");
+				    if forest.len() % 1000 == 0 {
+								println!("1000 down... {} to go", forest.len());
+						}
             forest.push(new_tree);
         }
 
@@ -311,7 +308,6 @@ impl DataContext {
                 right: Box::new(right),
                 benefit: benefit,
             };
-            println!("added new entry to code");
             forest.push(new_tree);
         }
 

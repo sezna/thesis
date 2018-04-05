@@ -1,4 +1,5 @@
 mod data_context;
+extern crate rayon;
 use std::io::prelude::*;
 use std::fs::File;
 use data_context::DataContext;
@@ -8,21 +9,23 @@ use data_context::DataContext;
 //       turn into a library
 // 			 split out into multiple mods
 //			 serialize context for reuse
-//       parallelize 
+//       parallelize
 
 fn main() {
     let mut file = File::open("data/big.txt").expect("Unable to open the file");
     let mut corpus = String::new();
-    file.read_to_string(&mut corpus).expect("Unable to read the file");
-		println!("Creating DataContext with Benefits");
+    file.read_to_string(&mut corpus).expect(
+        "Unable to read the file",
+    );
+    println!("Creating DataContext with Benefits");
     let data_context = DataContext::new(corpus.clone());
-		println!("Creating standard Huffman");
-//		let standard_huff = DataContext::new_standard_huffman(corpus);
-		println!("Encoding");
+    println!("Creating standard Huffman");
+    //		let standard_huff = DataContext::new_standard_huffman(corpus);
+    println!("Encoding");
     let encoded = data_context.encode("test test this is a test");
-//		let standard_encoded = standard_huff.encode("test test this is a test");
+    //		let standard_encoded = standard_huff.encode("test test this is a test");
 
-//		println!("length of standard: {}, length with benefits: {}", standard_encoded.len(), encoded.len());
+    //		println!("length of standard: {}, length with benefits: {}", standard_encoded.len(), encoded.len());
     let decoded = data_context.decode(&encoded);
     println!("encoded: {}, decoded: {}", encoded.len(), decoded.clone());
 }

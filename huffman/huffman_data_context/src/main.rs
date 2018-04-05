@@ -28,7 +28,7 @@ fn main() {
     //		let standard_encoded = standard_huff.encode("test test this is a test");
 
     //		println!("length of standard: {}, length with benefits: {}", standard_encoded.len(), encoded.len());
-		let char_size = std::mem::size_of::<char>();
+		let char_size = std::mem::size_of::<char>() * 8;
     let decoded = data_context.decode(&encoded);
     println!("encoded len: {}, huff_encoded len: {}, decoded: {}", encoded.len(), huff_encoded.len(), decoded.clone());
 		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", decoded.len(), encoded.len() as f64 / (char_size * decoded.len()) as f64, 

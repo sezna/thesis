@@ -185,6 +185,10 @@ impl Painting {
     fn render_strokes(&self) -> image::ImageBuffer<image::Rgb<u8>, Vec<u8>> {
         let mut rendered_strokes_buffer =
             image::ImageBuffer::<image::Rgb<u8>, Vec<u8>>::new(self.width, self.height);
+        for pixel in rendered_strokes_buffer.pixels_mut() {
+            pixel.data = [u8::max_value(), u8::max_value(), u8::max_value()];
+//            pixel = Image::Rgb<i8>(&mut u8::max_value();            
+        }
         // draw the line with width taken into account.
         for stroke in self.strokes.iter() {
             for i in 0..stroke.width {

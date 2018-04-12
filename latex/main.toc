@@ -1,0 +1,35 @@
+\select@language {english}
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Modified Huffman Coding for Lossless Compression and Bandwidth Optimization}{1}
+\contentsline {section}{\numberline {1.1}Introduction}{1}
+\contentsline {subsection}{\numberline {1.1.1}The Problem}{2}
+\contentsline {subsection}{\numberline {1.1.2}Common Transmission Types}{2}
+\contentsline {subsection}{\numberline {1.1.3}Proposed Solution}{3}
+\contentsline {section}{\numberline {1.2}Implementation and Methods}{6}
+\contentsline {subsection}{\numberline {1.2.1}Specification}{6}
+\contentsline {subsection}{\numberline {1.2.2}Advantages}{7}
+\contentsline {subsection}{\numberline {1.2.3}Disadvantages}{8}
+\contentsline {subsection}{\numberline {1.2.4}Our Implementation and Strategy}{9}
+\contentsline {section}{\numberline {1.3}Results}{9}
+\contentsline {section}{\numberline {1.4}Future Work}{10}
+\contentsline {chapter}{\numberline {2}Applying Genetic Algorithms to Generating Paintings Based on Images}{11}
+\contentsline {section}{\numberline {2.1}Introduction}{11}
+\contentsline {subsection}{\numberline {2.1.1}Background Information}{11}
+\contentsline {section}{\numberline {2.2}Implementation}{13}
+\contentsline {subsection}{\numberline {2.2.1}Applying a Genetic Algorithm to Painting}{13}
+\contentsline {subsection}{\numberline {2.2.2}The Fitness Function}{15}
+\contentsline {subsection}{\numberline {2.2.3}The Rendering Function}{16}
+\contentsline {subsection}{\numberline {2.2.4}The Generator Function}{16}
+\contentsline {subsection}{\numberline {2.2.5}The Selector Function}{17}
+\contentsline {subsection}{\numberline {2.2.6}The Crossover Function}{19}
+\contentsline {subsection}{\numberline {2.2.7}The Mutation Function}{20}
+\contentsline {section}{\numberline {2.3}Results}{21}
+\contentsline {subsection}{\numberline {2.3.1}Maximizing Fitness}{21}
+\contentsline {subsubsection}{Stroke Properties}{21}
+\contentsline {subsubsection}{Selectors}{22}
+\contentsline {subsection}{\numberline {2.3.2}Hamming Walls}{22}
+\contentsline {subsubsection}{Overcoming Hamming Walls with Selector Choice}{25}
+\contentsline {subsection}{\numberline {2.3.3}The Impact of Population Size}{28}
+\contentsline {subsection}{\numberline {2.3.4}The Impact of Iterations}{29}
+\contentsline {section}{\numberline {2.4}Future Work}{29}
+\contentsline {chapter}{\numberline {A}Code Appendix}{34}

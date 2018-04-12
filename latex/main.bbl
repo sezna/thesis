@@ -1,0 +1,136 @@
+\begin{thebibliography}{10}
+
+\bibitem{huffaudio}
+S.~Ashida, H.~Kakemizu, M.~Nagahara, and Y.~Yamamoto.
+\newblock Sampled-data audio signal compression with huffman coding.
+\newblock In {\em SICE 2004 Annual Conference}, volume~2, pages 972--976 vol.
+  2, Aug 2004.
+
+\bibitem{huffvideo}
+M~Atheeshwari and K~Mahesh.
+\newblock Efficient and robust video compression using huffman coding.
+\newblock {\em INTERNATIONAL JOURNAL FOR ADVANCE RESEARCH IN ENGINEERING AND
+  TECHNOLOGY}, 2(8), Aug 2011.
+
+\bibitem{hamming}
+Paul Charbonneau.
+\newblock An introduction to genetic algorithms for numerical optimization.
+\newblock {\em NCAR Technical Note}, page~74, 2002.
+
+\bibitem{courses}
+Peter Cowling, Graham Kendall, and Limin Han.
+\newblock An investigation of a hyperheuristic genetic algorithm applied to a
+  trainer scheduling problem.
+\newblock In {\em Evolutionary Computation, 2002. CEC'02. Proceedings of the
+  2002 Congress on}, volume~2, pages 1185--1190. IEEE, 2002.
+
+\bibitem{molecular}
+D.~M. Deaven and K.~M. Ho.
+\newblock Molecular geometry optimization with a genetic algorithm.
+\newblock {\em Phys. Rev. Lett.}, 75:288--291, Jul 1995.
+
+\bibitem{genetic4}
+Mark Erickson, Alex Mayer, and Jeffrey Horn.
+\newblock The niched pareto genetic algorithm 2 applied to the design of
+  groundwater remediation systems.
+\newblock In {\em International Conference on Evolutionary Multi-Criterion
+  Optimization}, pages 681--695. Springer, 2001.
+
+\bibitem{fraser1957simulation}
+Alex~S Fraser.
+\newblock Simulation of genetic systems by automatic digital computers i.
+  introduction.
+\newblock {\em Australian Journal of Biological Sciences}, 10(4):484--491,
+  1957.
+
+\bibitem{selectors}
+David~E. Goldberg and Kalyanmoy Deb.
+\newblock A comparative analysis of selection schemes used in genetic
+  algorithms.
+\newblock In {\em Foundations of Genetic Algorithms}, pages 69--93. Morgan
+  Kaufmann, 1991.
+
+\bibitem{fastdecode}
+Chen Hong-Chung, Wang Yue-Li, and Lan Yu-Feng.
+\newblock A memory-efficient and fast huffman decoding algorithm.
+\newblock {\em Information Processing Letters}, 69(3):119 -- 122, 1999.
+
+\bibitem{genetic3}
+Jeffrey Horn, Nicholas Nafpliotis, and David~E Goldberg.
+\newblock A niched pareto genetic algorithm for multiobjective optimization.
+\newblock In {\em Evolutionary Computation, 1994. IEEE World Congress on
+  Computational Intelligence., Proceedings of the First IEEE Conference on},
+  pages 82--87. Ieee, 1994.
+
+\bibitem{monalisa}
+Roger Johansson.
+\newblock Genetic programming: Evolution of mona lisa, 2008.
+
+\bibitem{synergistic}
+Atsushi Kasao and Masayuki Nakajima.
+\newblock Synergistic image creator? a picture generation system with
+  consideration of the painting process.
+\newblock 30:13--21, 09 1999.
+
+\bibitem{mccallum}
+John~C McCallum.
+\newblock Memory prices (1957-2017).
+
+\bibitem{genetic2}
+Heinz M{\"u}hlenbein, M~Schomisch, and Joachim Born.
+\newblock The parallel genetic algorithm as function optimizer.
+\newblock {\em Parallel computing}, 17(6-7):619--632, 1991.
+
+\bibitem{huffmemeffic}
+S.~Pigeon and Y.~Bengio.
+\newblock A memory-efficient adaptive huffman coding algorithm for very large
+  sets of symbols.
+\newblock In {\em Data Compression Conference, 1998. DCC '98. Proceedings},
+  pages 568--, March 1998.
+
+\bibitem{genetic1}
+Colin~R Reeves.
+\newblock A genetic algorithm for flowshop sequencing.
+\newblock {\em Computers \& operations research}, 22(1):5--13, 1995.
+
+\bibitem{sims}
+Karl Sims.
+\newblock {\em Artificial evolution for computer graphics}, volume~25.
+\newblock ACM, 1991.
+
+\bibitem{cisco}
+Cisco Systems.
+\newblock Visual networking index.
+
+\bibitem{organicpainting}
+Corinna Vehlow, Fabian Beck, and Daniel Weiskopf.
+\newblock Painting with flow.
+\newblock {\em Proceedings of the IEEE VIS Arts Program (VISAP)}, pages
+  117--126, 2014.
+
+\bibitem{genetic5}
+Matthew~Bartschi Wall.
+\newblock {\em A genetic algorithm for resource-constrained scheduling}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 1996.
+
+\bibitem{electro}
+D.~S. Weile and E.~Michielssen.
+\newblock Genetic algorithm optimization applied to electromagnetics: a review.
+\newblock {\em IEEE Transactions on Antennas and Propagation}, 45(3):343--353,
+  Mar 1997.
+
+\bibitem{huffimage}
+M.~J. Weinberger, G.~Seroussi, and G.~Sapiro.
+\newblock Loco-i: a low complexity, context-based, lossless image compression
+  algorithm.
+\newblock In {\em Data Compression Conference, 1996. DCC '96. Proceedings},
+  pages 140--149, Mar 1996.
+
+\bibitem{monet}
+Yili Zhao and Dan Xu.
+\newblock Monet-style images generation using recurrent neural networks.
+\newblock In Abdennour El~Rhalibi, Feng Tian, Zhigeng Pan, and Baoquan Liu,
+  editors, {\em E-Learning and Games}, pages 205--211, Cham, 2016. Springer
+  International Publishing.
+
+\end{thebibliography}

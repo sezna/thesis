@@ -26,7 +26,6 @@ fn main() {
     let no_benefits_context = DataContext::new_no_benefits(corpus.clone());
 		println!("Creating standard huffman code");
     let standard_huff = DataContext::new_standard_huffman(corpus.clone());
-
     let to_encode_file = File::open("data/to_encode.txt").unwrap();
 		let to_encode = BufReader::new(&to_encode_file);
 		let mut average_benefits_compression = 0f64;
@@ -36,6 +35,7 @@ fn main() {
 		let mut count = 0f64;
 		let char_size = std::mem::size_of::<char>() * 8;
 		for line_result in to_encode.lines() {
+				println!("Encoding line number: {}", count);
 			  let line = line_result.unwrap();	
 				let uncomp_size = (line.chars().count() * char_size) as f64;
 				 average_benefits_compression += data_context.encode(&line).chars().count() as f64 / uncomp_size;

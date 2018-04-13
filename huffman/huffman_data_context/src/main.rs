@@ -2,6 +2,8 @@ mod data_context;
 extern crate rayon;
 use std::io::prelude::*;
 use std::mem;
+use std::io::BufReader;
+use std::io::BufRead;
 use std::fs::File;
 use data_context::DataContext;
 
@@ -20,45 +22,30 @@ fn main() {
     );
     println!("Creating DataContext with Benefits");
     let data_context = DataContext::new(corpus.clone());
-    println!("Creating standard Huffman");
+    println!("Creating DataContext with no benefits");
+    let no_benefits_context = DataContext::new_no_benefits(corpus.clone());
+		println!("Creating standard huffman code");
     let standard_huff = DataContext::new_standard_huffman(corpus.clone());
-    println!("Encoding");
-    let encoded = data_context.encode("test test this is a test");
-		let huff_encoded = standard_huff.encode("test test this is a test");
-    //		let standard_encoded = standard_huff.encode("test test this is a test");
 
-    //		println!("length of standard: {}, length with benefits: {}", standard_encoded.len(), encoded.len());
+    let to_encode_file = File::open("data/to_encode.txt").unwrap();
+		let to_encode = BufReader::new(&to_encode_file);
+		let mut average_benefits_compression = 0f64;
+		let mut average_no_benefits_compression = 0f64;
+		let mut average_huffman_compression = 0f64;
+		let mut average_huffman_plus_tree = 0f64;
+		let mut count = 0f64;
 		let char_size = std::mem::size_of::<char>() * 8;
-    let decoded = data_context.decode(&encoded);
-    println!("encoded len: {}, huff_encoded len: {}, decoded: {}", encoded.len(), huff_encoded.len(), decoded.clone());
-		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", decoded.len(), encoded.len() as f64 / (char_size * decoded.len()) as f64, 
-		 huff_encoded.len() as f64 / (char_size * decoded.len()) as f64);
-		println!("encoding the corpus...");
-		let corpus_encoded = data_context.encode(&corpus);
-		let huff_corpus_encoded = standard_huff.encode(&corpus);
-		
-    println!("encoded len: {}, huff_encoded len: {}", corpus_encoded.len(), huff_corpus_encoded.len());
-		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", corpus.len(), corpus_encoded.len() as f64 / (corpus.len() * char_size) as f64,
-		huff_corpus_encoded.len() as f64 / (char_size * corpus.len()) as f64); 
-    println!("javascript results: ");
-
-    let mut file = File::open("data/js.txt").expect("Unable to open the file");
-    let mut corpus = String::new();
-    file.read_to_string(&mut corpus).expect(
-        "Unable to read the file",
-    );
-    let data_context = DataContext::new(corpus.clone());
-    println!("Creating standard Huffman");
-    let standard_huff = DataContext::new_standard_huffman(corpus.clone());
-
-		let corpus_encoded = data_context.encode(&corpus);
-		let huff_corpus_encoded = standard_huff.encode(&corpus);
-		
-    println!("encoded len: {}, huff_encoded len: {}", corpus_encoded.len(), huff_corpus_encoded.len());
-		println!("unencoded len: {} benefits ratio: {} huffman ratio: {}", corpus.len(), corpus_encoded.len() as f64 / (corpus.len() * char_size) as f64,
-				
-		huff_corpus_encoded.len() as f64 / (char_size * corpus.len()) as f64); 
-
+		for line_result in to_encode.lines() {
+			  let line = line_result.unwrap();	
+				let uncomp_size = (line.chars().count() * char_size) as f64;
+				 average_benefits_compression += data_context.encode(&line).chars().count() as f64 / uncomp_size;
+				 average_no_benefits_compression += no_benefits_context.encode(&line).chars().count() as f64 / uncomp_size;
+				 average_huffman_compression += standard_huff.encode(&line).chars().count() as f64 / uncomp_size;
+				 average_huffman_plus_tree += (standard_huff.encode(&line).chars().count() as f64 + 256f64) / uncomp_size;
+				 count += 1.0;
+		}
+    println!("benefits avg ratio: {}\nno benefits avg ratio: {}\nstandard huff no tree: {}\nwith tree: {}:",
+		average_benefits_compression, average_no_benefits_compression, average_huffman_compression, average_huffman_plus_tree);
 
 }
 

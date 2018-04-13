@@ -206,6 +206,63 @@ impl DataContext {
 
     }
 
+/// Creates a standard Huffman code using chars.
+    pub fn new_standard_huffman(corpus: String) -> DataContext {
+        // Gather vector of pointers to individual words in the corpus.
+        let mut tokens: Vec<&str> = corpus.split(|x| true).collect();
+        println!("getting tokens");
+        // Create unique tuples of tokens and their benefit.
+        let mut tokens_with_benefit: Vec<(&str, u64)> = tokens
+            .par_iter()
+            .map(|x| {
+                (
+                    *x,
+                    (tokens.iter().filter(|&y| y == x).count() * x.len()) as u64,
+                )
+            })
+            .collect();
+        tokens_with_benefit.push(("token not contained", 0u64));
+        tokens_with_benefit.sort();
+        tokens_with_benefit.dedup();
+        tokens_with_benefit.sort_by_key(|x| x.1);
+        println!("there are {} tokens", tokens_with_benefit.len());
+
+        // Create the Huffman tree. At this point, tokens_with_benefit is sorted
+        // by lowest benefit to highest benefit.
+        let mut forest: BinaryHeap<Node> = tokens_with_benefit
+            .iter()
+            .map(|x| {
+                Node::Leaf {
+                    data: x.0.to_string(),
+                    benefit: x.1,
+                }
+            })
+            .collect();
+        println!("forest created");
+        while forest.len() > 1 {
+				    let left = forest.pop().expect("heap pop didn't work");
+						let right = forest.pop().expect("heap pop didn't work");
+						let benefit = left.benefit() + right.benefit();
+            let new_tree = Node::Interior {
+                left: Box::new(left),
+                right: Box::new(right),
+                benefit: benefit,
+            };
+				    if forest.len() % 1000 == 0 {
+								println!("1000 down... {} to go", forest.len());
+						}
+            forest.push(new_tree);
+        }
+
+        assert!(forest.len() == 1);
+        return DataContext {
+            _context_id: "Test".to_string(),
+            root: forest.peek().unwrap().clone(),
+            encoding_table: forest.peek().unwrap().make_table(tokens),
+        };
+    }
+
+
     /// Creates a DataContext based on a corpus.
     pub fn new(corpus: String) -> DataContext {
         // Gather vector of pointers to individual words in the corpus.
@@ -265,7 +322,7 @@ impl DataContext {
     /// Creates a DataContext that has no benefit calculation,
     /// each token is placed on the tree based only on its
     /// frequency of occurrence.
-    pub fn new_standard_huffman(corpus: String) -> DataContext {
+    pub fn new_no_benefits(corpus: String) -> DataContext {
 
         // Gather vector of pointers to individual words in the corpus.
         let mut tokens: Vec<&str> = corpus.split(" ").collect();

@@ -1,6 +1,9 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, BinaryHeap};
+use std::cmp::Ordering;
+
+use rayon::prelude::*;
 /// A node for the DataContext.
-#[derive(Clone)]
+#[derive(Clone, Eq)]
 enum Node {
     Interior {
         left: Box<Node>,
@@ -10,6 +13,30 @@ enum Node {
     Leaf { data: String, benefit: u64 },
 }
 
+/// This function implements ordering for Node as the inverse of the actual ordering,
+/// i.e. it reverses the ordering. This is so that when we insert it in a heap
+/// later, the heap is a min heap and not a max heap.
+impl Ord for Node {
+    fn cmp(&self, other: &Node) -> Ordering {
+        let ord = self.benefit().cmp(&other.benefit());
+        match ord {
+            Ordering::Greater => Ordering::Less,
+            Ordering::Less => Ordering::Greater,
+            Ordering::Equal => ord,
+        }
+    }
+}
+impl PartialOrd for Node {
+    fn partial_cmp(&self, other: &Node) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl PartialEq for Node {
+    fn eq(&self, other: &Node) -> bool {
+        self.benefit() == other.benefit()
+    }
+}
 
 impl Node {
     pub fn benefit(&self) -> u64 {
@@ -72,14 +99,10 @@ impl Node {
     }
 
     pub fn make_table(&self, tokens: Vec<&str>) -> HashMap<String, String> {
-        let mut to_return = HashMap::new();
-        for token in tokens {
-            to_return.insert(
-                token.to_string(),
-                self.traverse(token).expect("token not found"),
-            );
-
-        }
+				println!("in make_table");
+				let to_return:HashMap<String, String> = tokens.clone().par_iter().map(|x| {
+								(x.to_string(), self.traverse(x).expect("token not found"))
+				}).collect();
         return to_return;
 
     }
@@ -187,10 +210,10 @@ impl DataContext {
     pub fn new(corpus: String) -> DataContext {
         // Gather vector of pointers to individual words in the corpus.
         let mut tokens: Vec<&str> = corpus.split(" ").collect();
-				println!("getting tokens");
+        println!("getting tokens");
         // Create unique tuples of tokens and their benefit.
         let mut tokens_with_benefit: Vec<(&str, u64)> = tokens
-            .iter()
+            .par_iter()
             .map(|x| {
                 (
                     *x,
@@ -202,11 +225,11 @@ impl DataContext {
         tokens_with_benefit.sort();
         tokens_with_benefit.dedup();
         tokens_with_benefit.sort_by_key(|x| x.1);
-				println!("there are {} tokens", tokens_with_benefit.len());
+        println!("there are {} tokens", tokens_with_benefit.len());
 
         // Create the Huffman tree. At this point, tokens_with_benefit is sorted
         // by lowest benefit to highest benefit.
-        let mut forest: Vec<Node> = tokens_with_benefit
+        let mut forest: BinaryHeap<Node> = tokens_with_benefit
             .iter()
             .map(|x| {
                 Node::Leaf {
@@ -215,36 +238,34 @@ impl DataContext {
                 }
             })
             .collect();
-        forest.sort_by_key(|x| x.benefit());
-				println!("forest created");
-
+        println!("forest created");
         while forest.len() > 1 {
+				    let left = forest.pop().expect("heap pop didn't work");
+						let right = forest.pop().expect("heap pop didn't work");
+						let benefit = left.benefit() + right.benefit();
             let new_tree = Node::Interior {
-                left: Box::new(forest[0].clone()),
-                right: Box::new(forest[1].clone()),
-                benefit: forest[0].benefit() + forest[1].benefit(),
+                left: Box::new(left),
+                right: Box::new(right),
+                benefit: benefit,
             };
-				    println!("added new entry to code");
-            forest.remove(1);
-            forest.remove(0);
+				    if forest.len() % 1000 == 0 {
+								println!("1000 down... {} to go", forest.len());
+						}
             forest.push(new_tree);
-            forest.sort_by_key(|x| x.benefit());
         }
 
-        tokens.sort();
-        tokens.dedup();
         assert!(forest.len() == 1);
         return DataContext {
             _context_id: "Test".to_string(),
-            root: forest[0].clone(),
-            encoding_table: forest[0].clone().make_table(tokens),
+            root: forest.peek().unwrap().clone(),
+            encoding_table: forest.peek().unwrap().make_table(tokens),
         };
     }
-		
-		/// Creates a DataContext that has no benefit calculation,
-		/// each token is placed on the tree based only on its
-		/// frequency of occurrence. 
-		pub fn new_standard_huffman(corpus: String) -> DataContext {
+
+    /// Creates a DataContext that has no benefit calculation,
+    /// each token is placed on the tree based only on its
+    /// frequency of occurrence.
+    pub fn new_standard_huffman(corpus: String) -> DataContext {
 
         // Gather vector of pointers to individual words in the corpus.
         let mut tokens: Vec<&str> = corpus.split(" ").collect();
@@ -252,12 +273,7 @@ impl DataContext {
         // Create unique tuples of tokens and their frequency.
         let mut tokens_with_frequency: Vec<(&str, u64)> = tokens
             .iter()
-            .map(|x| {
-                (
-                    *x,
-                    tokens.iter().filter(|&y| y == x).count() as u64,
-                )
-            })
+            .map(|x| (*x, tokens.iter().filter(|&y| y == x).count() as u64))
             .collect();
         tokens_with_frequency.push(("token not contained", 0u64));
         tokens_with_frequency.sort();
@@ -266,8 +282,8 @@ impl DataContext {
 
         // Create the Huffman tree. At this point, tokens_with_frequency is sorted
         // by lowest frequency to highest frequency.
-        let mut forest: Vec<Node> = tokens_with_frequency
-            .iter()
+        let mut forest: BinaryHeap<Node> = tokens_with_frequency
+            .par_iter()
             .map(|x| {
                 Node::Leaf {
                     data: x.0.to_string(),
@@ -275,29 +291,26 @@ impl DataContext {
                 }
             })
             .collect();
-        forest.sort_by_key(|x| x.benefit());
+        println!("forest created");
 
         while forest.len() > 1 {
+				    let left = forest.pop().expect("heap pop didn't work");
+						let right = forest.pop().expect("heap pop didn't work");
+						let benefit = left.benefit() + right.benefit();
             let new_tree = Node::Interior {
-                left: Box::new(forest[0].clone()),
-                right: Box::new(forest[1].clone()),
-                benefit: forest[0].benefit() + forest[1].benefit(),
+                left: Box::new(left),
+                right: Box::new(right),
+                benefit: benefit,
             };
-            forest.remove(1);
-            forest.remove(0);
             forest.push(new_tree);
-            forest.sort_by_key(|x| x.benefit());
         }
 
-        tokens.sort();
-        tokens.dedup();
         assert!(forest.len() == 1);
         return DataContext {
             _context_id: "Test".to_string(),
-            root: forest[0].clone(),
-            encoding_table: forest[0].clone().make_table(tokens),
+            root: forest.peek().unwrap().clone(),
+            encoding_table: forest.peek().unwrap().make_table(tokens),
         };
 
-		}
+    }
 }
-

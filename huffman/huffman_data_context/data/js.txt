@@ -1,0 +1,514 @@
+(function() {
+  var methods;
+  this Model = function(name, options, func) {
+    var model;
+    model = function(attributes) {
+      var self;
+      self = this;
+      this tagId = null;
+      this refresh(attributes);
+      this errors = {};
+      this parent = {};
+      this name = name;
+      this json = {};
+      this uid =  uniqueId("" + this name + "");
+      this bind("change", this change);
+      this bind("data:format", this toData);
+       each(model listAssociations(), function(associationName) {
+        return self[associationName] parent = self;
+      });
+      this initialize(attributes);
+      return this;
+    };
+    model name = name;
+     extend(model prototype, Model Events, {
+      initialize: function() {},
+      modelName: function() {
+        return "" + ( classify(this name));
+      },
+      attributes: function() {
+        return this attributes;
+      },
+      change: function(record) {
+        return  each(record changes, function(value, key) {
+          if ($(name) val() !== value) {
+            return $(name) val(value);
+          }
+        });
+      },
+      refresh: function(attributes) {
+        this attributes = attributes || (attributes = {});
+        this parseAssociations(attributes);
+        this prevAttributes =  clone(this attributes);
+        this changes = {};
+        this attr(attributes);
+        return this changes = {};
+      },
+      parseAssociations: function(attributes) {
+        return  each(model manyAssociations, function(assoc) {
+          var val;
+          val = attributes[assoc];
+          delete attributes[assoc];
+          return  each(val, function(attrs) {
+            var instance;
+            instance = eval("new " + ( classify(assoc)));
+            instance refresh(attrs);
+            instance parent = this;
+            return this[assoc] add(instance);
+          }, this);
+        }, this);
+      },
+      get: function(key) {
+        return this attributes[key];
+      },
+      set: function(key, value) {
+        var k, v, results;
+        if ( isString(key) ||  isNumber(key)) {
+          if (model sanitizers[key]) {
+            value = model sanitizers[key] call(this, value);
+          }
+          if ( isEqual(this prevAttributes[key], value)) {
+            delete this changes[key];
+          } else {
+            this changes[key] = value;
+          }
+          this attributes[key] = value;
+          return this trigger("change", [this]);
+        } else {
+          results = [];
+          for (k in key) {
+            v = key[k];
+            results push(this set(k, v));
+          }
+          return results;
+        }
+      },
+      attr: function(key, value) {
+        var argLen;
+        argLen = arguments length;
+        if (( isUndefined(key) ||  isEmpty(key)) && argLen > 0) {
+          return false;
+        }
+        if (argLen === 0) {
+          return this attributes;
+        } else if (argLen === 2) {
+          return this set(key, value);
+        } else if ( isString(key) ||  isNumber(key)) {
+          return this get(key);
+        } else {
+          return this set(key);
+        }
+      },
+      changed: function() {
+        return this changes !== {};
+      },
+      changes: function() {
+        return this changes;
+      },
+      unbindFrom: function(form) {
+        $(form) undelegate(":input", "change", this onBoundChange);
+        return $(form) undelegate(":input", "keyup", this onBoundChange);
+      },
+      bindTo: function(form) {
+        var self;
+        self = this;
+        $(form) delegate(":input", "change", {
+          record: this
+        }, this onBoundChange);
+        return $(form) delegate(":input", "keyup", {
+          record: this
+        }, this onBoundChange);
+      },
+      onBoundChange: function(e) {
+        var el, keys, record, value;
+        el = $(e target);
+        record = e data record;
+        value = el val();
+        keys = record parseNameField(el);
+        keys shift();
+        return record parseAttributeKeys(keys, value);
+      },
+      parseAttributeKeys: function(keys, value) {
+        var key;
+        if (keys length === 1) {
+          key = keys[0];
+          return this attr(key, value);
+        } else if (keys length > 1) {
+          return this parseAssociationKeys(keys, value);
+        }
+      },
+      parseAssociationKeys: function(keys, value) {
+        var assoc, key, obj, uid;
+        assoc = keys shift() replace("attributes", "");
+        uid = keys shift();
+        key = keys[0];
+        if (!this[assoc] object) {
+          obj = this[assoc] findByUid(uid);
+        } else {
+          obj = this[assoc] object;
+        }
+        return obj parseAttributeKeys(keys, value);
+      },
+      parseNameField: function(el) {
+        return  map(el attr("name") split("["), function(p) {
+          return p replace("]", "");
+        });
+      },
+      id: function() {
+        return this get("id");
+      },
+      uid: function() {
+        return this uid;
+      },
+      isNew: function() {
+        return ! isNumber(this id());
+      },
+      errors: function() {
+        return this errors;
+      },
+      resetErrors: function() {
+        return this errors = {};
+      },
+      parent: function() {
+        return this parent;
+      },
+      tagId: function() {
+        return this tagId;
+      },
+      toJSON: function(options) {
+        var baseObj;
+        baseObj = options && options child ? this json =  clone(this attributes()) : this json[model name] =  clone(this attributes());
+        this trigger("data:format", [this]);
+         each(model manyAssociations, function(association) {
+          return model prototype[association] each(function(child) {
+            var childKey;
+            childKey = "" + association + "attributes";
+            if (!baseObj[childKey]) {
+              baseObj[childKey] = [];
+            }
+            return baseObj[childKey] push(child toJSON({
+              child: true
+            }));
+          }, this);
+        }, this);
+         each(model oneAssociations, function(association) {
+          var child;
+          child = model prototype[association];
+          if (child object) {
+            return baseObj["" + association + "attributes"] = child object toJSON({
+              child: true
+            });
+          }
+        }, this);
+        return this json;
+      },
+      getUrl: function(method) {
+        var path;
+        path =  pluralize("/" + model name);
+        if (!this isNew()) {
+          path = "" + path + "/" + (this id());
+        }
+        return path;
+      },
+      save: function(options) {
+        var error, method, record, success;
+        method = this isNew() ? "create" : "update";
+        record = this;
+        options || (options = {});
+        success = options success;
+        error = options error;
+        options success = function(resp, status, xhr) {
+          record resetErrors();
+          if (! isEmpty(resp)) {
+            record attr("id", resp["id"]);
+          }
+          success(record, resp, xhr);
+          return record trigger("save:after", [record]);
+        };
+        options error = function(resp, status, xhr) {
+          record errors = $ parseJSON(resp responseText);
+          if (error) {
+            error(record, resp, xhr);
+          }
+          return record trigger("save:after", [record]);
+        };
+        record trigger("save:before", [record]);
+        return Model Sync(record, method, options);
+      },
+      toData: function() {}
+    });
+     extend(model, {
+      manyAssociations: [],
+      oneAssociations: [],
+      sanitizers: {},
+      listAssociations: function() {
+        return this manyAssociations concat(this oneAssociations);
+      },
+      hasMany: function(name, options) {
+        var collection, manyArray;
+        this manyAssociations push(name);
+        manyArray = {};
+        collection = new Model Collection(name);
+        if (options && options extend) {
+           extend(collection, options extend);
+        }
+        manyArray[name] = collection;
+        return  extend(model prototype, manyArray);
+      },
+      hasOne: function(name) {
+        var association, oneObj;
+        this oneAssociations push(name);
+        association = new Model One(name);
+        oneObj = {};
+        oneObj[name] = association;
+        oneObj["build" + name] = function() {
+          return association build();
+        };
+        oneObj["clear" + name] = function() {
+          return association clear();
+        };
+        return  extend(model prototype, oneObj);
+      },
+      sanitize: function(key, callback) {
+        return this sanitizers[key] = callback;
+      },
+      newCollection: function() {
+        return new Model Collection(this name);
+      },
+      fetch: function(params) {
+        return model newCollection() fetch(params);
+      },
+      query: function(options) {
+        return model newCollection() query(options);
+      }
+    });
+    return model;
+  };
+  this Model Events = {
+    bind: function(event, callback) {
+      this callbacks = this callbacks || {};
+      this callbacks[event] = this callbacks[event] || [];
+      this callbacks[event] push(callback);
+      return this;
+    },
+    trigger: function(name, data) {
+      var callback, callbacks, i, len;
+      this callbacks = this callbacks || {};
+      callbacks = this callbacks[name];
+      if (callbacks) {
+        for (i = 0, len = callbacks length; i < len; i++) {
+          callback = callbacks[i];
+          callback apply(this, data || []);
+        }
+      }
+      return this;
+    }
+  };
+  this Model Sync = function(obj, method, options) {
+    var data, methodVerbs, params;
+    methodVerbs = {
+      "create": "POST",
+      "update": "PUT",
+      "delete": "DELETE",
+      "read": "GET"
+    };
+    params =  extend({
+      type: methodVerbs[method],
+      contentType: "application/json",
+      dataType: "json",
+      processData: method === "read" ? true : false
+    }, options);
+    params url = obj getUrl(method);
+    if (!options data) {
+      data = JSON stringify(obj toJSON());
+      if (data !== "{}") {
+        params data = data;
+      }
+    }
+    return $ ajax(params);
+  };
+  this Model One = function(name) {
+    this name = name;
+    return this;
+  };
+   extend(Model One prototype, {
+    build: function() {
+      var record;
+      record = eval("new " + ( classify(this name)));
+      if (this parent()) {
+        record parent = this parent();
+      }
+      return this object = record;
+    },
+    clear: function() {
+      return this parent()[this name] = this;
+    },
+    parent: function() {
+      return this parent;
+    }
+  });
+  this Model Collection = function(name) {
+    this name =  singularize(name);
+    this options = {};
+    this reset();
+    this url = this getUrl(name);
+    this bind("change", this change);
+    this bind("add", function(collection) {
+      return this trigger("refresh", [collection]);
+    });
+    this bind("remove", function(collection) {
+      return this trigger("refresh", [collection]);
+    });
+    return this;
+  };
+   extend(Model Collection prototype, Model Events, {
+    getUrl: function() {
+      return "/" + ( pluralize(this name));
+    },
+    add: function(records) {
+      if ( isArray(records)) {
+        return  each(records, function(record) {
+          return this add(record);
+        }, this);
+      } else {
+        return this add(records);
+      }
+    },
+    removeAll: function() {
+      return this records = [];
+    },
+    remove: function(records) {
+      if ( isArray(records)) {
+        return  each(records, function(record) {
+          return this remove(record);
+        }, this);
+      } else {
+        return this remove(records);
+      }
+    },
+    change: function(record) {
+      var self;
+      self = this;
+      return  each(record changes, function(value, key) {
+        var currentmodelname, indexid, name;
+        indexid = record tagId();
+        currentmodelname =  pluralize(record name);
+        name = '[name="' + self parent() name + ("[" + currentmodelname + "attributes][" + indexid + "][" + key + "]") + '"]';
+        return $(name) val(value);
+      });
+    },
+    parent: function() {
+      return this parent;
+    },
+    get: function(id) {
+      if ( isNull(id)) {
+        return null;
+      }
+      return this byId[! isNull(id id) ? id id : id];
+    },
+    refresh: function(records) {
+      this reset();
+      this add(records);
+      this trigger("refresh", [this]);
+      return this;
+    },
+    fetch: function(params) {
+      this query({
+        data: params
+      });
+      return this;
+    },
+    findByTagId: function(tagid) {
+      return  detect(this records, function(element) {
+        return element tagId() === parseInt(tagid);
+      });
+    },
+    removeByTagId: function(tagid) {
+      var record;
+      record =  detect(this records, function(element) {
+        return element tagId() === parseInt(tagid);
+      });
+      if (record) {
+        return this remove(record);
+      }
+    },
+    findByUid: function(uid) {
+      return  detect(this records, function(record) {
+        return record uid() === uid;
+      });
+    },
+    removeByUid: function(uid) {
+      var record;
+      record = this findByUid(uid);
+      if (record) {
+        return this remove(record);
+      }
+    },
+    query: function(options) {
+      var collection, success;
+      this options = options || (options = {});
+      collection = this;
+      success = options success;
+      options success = function(resp, status, xhr) {
+        collection refresh(resp);
+        if (success) {
+          return success(collection, resp);
+        }
+      };
+      Model Sync(this, "read", options);
+      return this;
+    },
+    toJSON: function() {
+      return this options;
+    },
+    pluck: function(attr) {
+      return  map(this records, function(record) {
+        return record get(attr);
+      });
+    },
+    add: function(record) {
+      var attr;
+      if (!record name) {
+        attr = record;
+        record = eval("new " + ( classify(this name)));
+        record refresh(attr);
+      }
+      this bindRecordEvents(record);
+      if (this parent()) {
+        record parent = this parent();
+      }
+      this records push(record);
+      this length++;
+      this trigger("add", [record]);
+      return record;
+    },
+    remove: function(record) {
+      var index;
+      index = this records indexOf(record);
+      this records splice(index, 1);
+      this trigger("remove", [record]);
+      this trigger("change", [record]);
+      return this length--;
+    },
+    reset: function() {
+      this length = 0;
+      this records = [];
+      return this byId = {};
+    },
+    bindRecordEvents: function(record) {
+      var collection;
+      collection = this;
+      return record bind("change", function() {
+        return collection trigger("change", [record]);
+      });
+    }
+  });
+  methods = ['forEach', 'each', 'map', 'reduce', 'reduceRight', 'find', 'detect', 'filter', 'select', 'reject', 'every', 'all', 'some', 'any', 'include', 'invoke', 'max', 'min', 'sortBy', 'sortedIndex', 'toArray', 'size', 'first', 'rest', 'last', 'without', 'indexOf', 'lastIndexOf', 'isEmpty'];
+   each(methods, function(method) {
+    return Model Collection prototype[method] = function() {
+      return [method] apply(, [this records] concat( toArray(arguments)));
+    };
+  });
+}) call(this);
+
+

@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+The style file: plain.bst
+Database file #1: refs.bib
+Warning--empty journal in synergistic
+Warning--can't use both volume and number fields in sims
+You've used 23 entries,
+            2118 wiz_defined-function locations,
+            644 strings with 7572 characters,
+and the built_in function-call counts, 8214 in all, are:
+= -- 827
+> -- 310
+< -- 13
++ -- 131
+- -- 98
+* -- 524
+:= -- 1275
+add.period$ -- 71
+call.type$ -- 23
+change.case$ -- 114
+chr.to.int$ -- 0
+cite$ -- 25
+duplicate$ -- 347
+empty$ -- 687
+format.name$ -- 98
+if$ -- 1805
+int.to.chr$ -- 0
+int.to.str$ -- 23
+missing$ -- 20
+newline$ -- 115
+num.names$ -- 48
+pop$ -- 137
+preamble$ -- 1
+purify$ -- 93
+quote$ -- 0
+skip$ -- 285
+stack$ -- 0
+substring$ -- 563
+swap$ -- 117
+text.length$ -- 13
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 90
+warning$ -- 2
+while$ -- 83
+width$ -- 25
+write$ -- 251
+(There were 2 warnings)

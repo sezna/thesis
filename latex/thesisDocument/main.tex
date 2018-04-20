@@ -1,0 +1,131 @@
+%
+% instructions for "compiling":
+%   latex main (first pass, also generates .aux file for bibtex)
+%   bibtex main (generates .bbl file with bibliography)
+%   latex main (second pass, incorporates bibliography)
+%   latex main (do this if you still get messages about labels
+%      having changed or missing references)
+% to generate/view/print postscript:
+%   dvips -o main.ps main 
+%   gv main.ps (to view)
+%   lpr main.ps (to print, or print from "gv")
+% to generate/view/print PDF:
+%   dvips -Pcmz -Ppdf -j0 -G0 -o main.ps main
+%   ps2pdf main.ps main.pdf
+%   acroread main.pdf (to view/print)
+%   
+\documentclass[11pt]{report}
+
+% miscellaneous packages
+% FIX THIS -- can add to or change, but these are useful
+%
+% uncomment the following if your input includes characters other than
+% 7-bit ASCII (e.g., accented characters)
+%\usepackage[utf8]{inputenc}
+%
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{moreverb}
+\usepackage{url}
+\usepackage{subcaption}
+\usepackage{verbatim}
+% double spacing
+\usepackage{setspace}
+\doublespacing
+
+% hyphenation
+\usepackage[english]{babel}
+\selectlanguage{english}
+
+% allow more figures on a page
+\setcounter{topnumber}{10}
+\setcounter{bottomnumber}{10}
+\setcounter{totalnumber}{10}
+\setcounter{dbltopnumber}{10}
+\def\topfraction{1.0}
+\def\bottomfraction{1.0}
+\def\textfraction{0.0}
+\def\dbltopfraction{1.0}
+
+% margins
+%\usepackage[letterpaper,top=2.0in,bottom=1.5in,left=1.5in,right=1.0in]
+%	{geometry}
+\usepackage[top=2.0in,bottom=1.5in,left=1.5in,right=1.0in]{geometry}
+
+% set up to put page numbers in header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{\rm\thepage}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% author, title, and date
+% FIX THIS
+\newcommand{\theAuthor}{Alexander Hansen}
+% FIX THIS -- but be sure to leave in \par if title might exceed
+%   one line -- otherwise space between lines will be wrong
+\newcommand{\theTitle}{Modified Huffman Code for Lossless Compression and Bandwidth Optimization and Applying Genetic Algorithms to Generating Paintings Based on Images \par}
+% FIX THIS
+\newcommand{\theDate}{April 04, 2018}
+
+\newlength{\WidthOfX}
+% do not set here -- set just before use so we get the right font size
+%\settowidth{\WidthOfX}{X} 
+\newenvironment{TitlePageList}
+{\begin{list}{}{%
+  \setlength\leftmargin{0pt}%
+  \setlength\labelwidth{10pt}%
+  \setlength\itemindent{0pt}%
+  \let \makelabel\descriptionlabel%
+}}
+{\end{list}}
+
+% FIX THIS -- can put additional macro definitions here
+
+%----------------------------------------------------------------------
+
+\begin{document}
+\tracingall
+
+
+\pagenumbering{gobble}
+
+\input{abstract}
+
+
+\clearpage
+\input{ack}
+
+\clearpage
+\input{signatures}
+
+\clearpage
+\input{titlepage}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+
+
+\clearpage
+\pagenumbering{arabic}
+
+\input{huffman.tex}
+
+
+\input{painting.tex}
+\bibliography{refs}
+\bibliographystyle{plain}
+
+\appendix
+% FIX THIS
+\input{appendix1}
+
+\end{document}

@@ -1,0 +1,19 @@
+\select@language {english}
+\select@language {english}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Huffman code example}}{6}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces A rendered painting with its original reference image to the left of it\relax }}{16}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Informed random generation compared with fully random generation}}{18}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Maximize selector fitness graph}}{23}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Visualized Hamming wall}}{24}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Informed random and random generator fitness graphs}}{24}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Tournament selection maximum fitness graph}}{26}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Tournament selector fitness graph versus maximal selector fitness graph}}{26}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Tournament selector comparison}}{27}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Fitness graph of different population levels}}{28}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Fitness graph of multiple executions with varying amounts of iterations}}{30}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces The original mutation function.\relax }}{35}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces The function for creating a data context.\relax }}{36}
+\contentsline {figure}{\numberline {A.3}{\ignorespaces The function for calculating the fitness of a painting. Here, ``self'' is a painting.\relax }}{37}
